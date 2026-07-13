@@ -251,7 +251,7 @@ body::-webkit-scrollbar {
   height: 100vh;
   padding: var(--content-top-offset) 8% 40px;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* safe vertical alignment prevents upward bleed */
   pointer-events: auto; /* enable clicks inside content panel */
 }
 
@@ -276,6 +276,8 @@ body::-webkit-scrollbar {
   max-width: 1200px;
   display: flex;
   flex-direction: column;
+  margin-top: auto;
+  margin-bottom: auto; /* enables safe vertical centering */
 }
 
 .section-overlay-container.align-left .section-overlay-content {
@@ -1038,4 +1040,93 @@ body::-webkit-scrollbar {
   0% { opacity: 0.3; }
   50% { opacity: 1; }
   100% { opacity: 0.3; }
+}
+
+/* ==========================================
+   Side Scroll-Progress Indicator Rail
+   ========================================== */
+.scroll-progress-rail {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40; /* below navbar's z-index (100), above canvas/content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto; /* enable interactions */
+  transition: opacity 0.3s ease;
+}
+
+.scroll-progress-percent {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.scroll-progress-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.scroll-progress-track::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--rail-track-color);
+  z-index: -1;
+  transition: background 0.3s ease;
+}
+
+.scroll-progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rail-dot-color);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.scroll-progress-dot:hover {
+  transform: scale(1.4);
+}
+
+.scroll-progress-dot.passed {
+  background: var(--accent-mint);
+  opacity: 0.5;
+}
+
+.scroll-progress-dot.active {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-mint);
+  opacity: 1;
+  box-shadow: 0 0 0 4px var(--glow-mint);
+  transform: none;
+}
+
+/* Scroll-Progress Rail Themes (Light/Dark contexts) */
+.scroll-progress-rail.light {
+  --rail-text-color: var(--text-light-secondary);
+  --rail-track-color: rgba(17, 27, 21, 0.12);
+  --rail-dot-color: rgba(17, 27, 21, 0.25);
+}
+
+.scroll-progress-rail.dark {
+  --rail-text-color: var(--text-dark-secondary);
+  --rail-track-color: rgba(240, 247, 243, 0.12);
+  --rail-dot-color: rgba(240, 247, 243, 0.25);
+}
+
+.scroll-progress-percent {
+  color: var(--rail-text-color);
 }

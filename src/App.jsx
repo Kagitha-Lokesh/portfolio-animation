@@ -2,6 +2,7 @@ import React from 'react';
 import { useLenis } from './hooks/useLenis';
 import { CanvasRenderer } from './rendering/CanvasRenderer';
 import { Navbar } from './presentation/Navbar/Navbar';
+import { ScrollProgressRail } from './presentation/components/ScrollProgressRail';
 import { DeveloperConsole } from './presentation/components/DeveloperConsole';
 import { SectionOverlay } from './presentation/Overlay/SectionOverlay';
 import { PORTFOLIO_CONFIG } from './config/portfolio.config';
@@ -31,6 +32,9 @@ function App() {
 
       {/* 2. Floating Navbar menu */}
       <Navbar />
+
+      {/* Side Scroll-Progress Indicator */}
+      <ScrollProgressRail />
 
       {/* 3. Developer Diagnostics Console (toggled by F2) */}
       <DeveloperConsole />

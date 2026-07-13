@@ -40,6 +40,7 @@ export function Navbar() {
       setNavbarMode(mode);
       const style = NAVBAR_STYLES[mode];
       gsap.set(navbarRef.current, {
+        xPercent: -50,
         height: style.height,
         y: style.translateY,
         padding: style.padding,
@@ -60,6 +61,10 @@ export function Navbar() {
       const section = getSectionById(secId);
       const mode = section?.navbar?.mode ?? 'default';
       setNavbarMode(mode);
+      if (section) {
+        const currentTheme = section.lighting.profile === 'WarmMorning' ? 'light' : 'dark';
+        setTheme(currentTheme);
+      }
     });
 
     const subTheme = EventBus.on('THEME_CHANGED', (newTheme) => {
@@ -82,6 +87,7 @@ export function Navbar() {
 
     if (retracted && navbarMode === 'compact') {
       gsap.to(navbarRef.current, {
+        xPercent: -50,
         height: 14,
         y: -6,
         padding: '0px',
@@ -92,6 +98,7 @@ export function Navbar() {
       });
     } else {
       gsap.to(navbarRef.current, {
+        xPercent: -50,
         height: style.height,
         y: style.translateY,
         padding: style.padding,
