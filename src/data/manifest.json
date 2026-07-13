@@ -1,0 +1,61 @@
+{
+  "totalFrames": 227,
+  "framePrefix": "frame_",
+  "frameExtension": ".jpg",
+  "scenes": [
+    {
+      "id": "hero",
+      "frames": [0, 37],
+      "character": {
+        "outfit": "green_hoodie",
+        "pose": "wave",
+        "emotion": "smile"
+      }
+    },
+    {
+      "id": "about",
+      "frames": [38, 75],
+      "character": {
+        "outfit": "casual_tshirt",
+        "pose": "thinking",
+        "emotion": "neutral"
+      }
+    },
+    {
+      "id": "skills_tech",
+      "frames": [76, 113],
+      "character": {
+        "outfit": "developer_hoodie",
+        "pose": "typing",
+        "emotion": "focused"
+      }
+    },
+    {
+      "id": "projects_exp",
+      "frames": [114, 151],
+      "character": {
+        "outfit": "casual_jacket",
+        "pose": "presenting",
+        "emotion": "confident"
+      }
+    },
+    {
+      "id": "edu_achievements",
+      "frames": [152, 189],
+      "character": {
+        "outfit": "student_shirt",
+        "pose": "studying",
+        "emotion": "curious"
+      }
+    },
+    {
+      "id": "contact",
+      "frames": [190, 226],
+      "character": {
+        "outfit": "formal_suit",
+        "pose": "ending",
+        "emotion": "cheerful"
+      }
+    }
+  ]
+}

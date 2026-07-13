@@ -1,0 +1,28 @@
+:root {
+  /* Colors */
+  --bg-color-light: #f8f7f3;
+  --bg-color-dark: #000000;
+  --text-color-light: #1a1a1a;
+  --text-color-dark: #ffffff;
+  --primary-color: #ff6b6b;
+  --accent-color: #4ecdc4;
+  --glass-bg-light: rgba(255, 255, 255, 0.45);
+  --glass-bg-dark: rgba(0, 0, 0, 0.45);
+  --glass-border-light: rgba(0, 0, 0, 0.08);
+  --glass-border-dark: rgba(255, 255, 255, 0.08);
+
+  /* Layout Safe Zones */
+  --safe-zone-desktop-left: 38%;
+  --safe-zone-desktop-right: 62%;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 8rem;
+
+  /* Font Families */
+  --font-family-headings: 'Outfit', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
+}

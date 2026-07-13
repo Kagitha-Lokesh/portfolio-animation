@@ -1,0 +1,7 @@
+export const ANIMATION = {
+  FRAME_FOLDER: "/frames",
+  INTERPOLATION: 0.15,
+  SCROLL_MULTIPLIER: 40,
+  BACKGROUND: "#000",
+  DPI_SCALE: true,
+};
