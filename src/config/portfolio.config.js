@@ -1,7 +1,7 @@
 // src/config/portfolio.config.js
-// Unified Single Source of Truth — animation timing, camera, character,
-// lighting, timeline event markers, and all real content, per section.
-// Native playback speed: 30 FPS. Total sequence: 1293 frames.
+// Unified Single Source of Truth — reconciled against the authoritative
+// 1,293-frame / 30fps rendered timeline. Animation ranges, costumes, and
+// safe-zones below match the actual generated video exactly.
 
 export const SITE_META = {
   fullName: "Kagitha Lokesh",
@@ -19,11 +19,9 @@ export const SITE_META = {
 };
 
 export const PORTFOLIO_CONFIG = {
-  fps: 30, // updated to 30 FPS
-  totalFrames: 1293,
+  fps: 30, // CORRECTED from 12 — matches actual rendered sequence
+  totalFrames: 1293, // CORRECTED from 517
 
-  // Organizational grouping only — does NOT change scroll behavior.
-  // Sections still play as one continuous linear chain, Home -> Contact.
   experiences: [
     { id: "developer-journey", title: "Developer Journey", sections: ["home", "about", "skills", "techstack"] },
     { id: "career", title: "Career History", sections: ["projects", "experience", "achievements"] },
@@ -34,7 +32,7 @@ export const PORTFOLIO_CONFIG = {
     wide: { zoom: 1.0, parallax: 0.05 },
     present: { zoom: 1.0, parallax: 0.08 },
     focus: { zoom: 1.0, parallax: 0.12 },
-    closeup: { zoom: 1.0, parallax: 0.1 },
+    closeup: { zoom: 1.0, parallax: 0.1 }, // zoom will animate in a later pass; flat 1.0 for now per doc
   },
 
   lightingProfiles: {
@@ -53,12 +51,12 @@ export const PORTFOLIO_CONFIG = {
       character: { outfit: "green_hoodie_backpack", pose: "stride_to_wave" },
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
-      navbar: { mode: "compact" },
       timeline: [
         { frame: 5, event: "TITLE_IN" },
         { frame: 15, event: "SUBTITLE_IN" },
         { frame: 24, event: "BUTTONS_IN" },
       ],
+      navbar: { mode: "compact" }, // waving hand reaches near top of frame
       content: {
         title: "Hi, I'm K. Lokesh",
         subtitle: "Java Full Stack Developer • React Developer • AI & ML Enthusiast",
@@ -74,12 +72,14 @@ export const PORTFOLIO_CONFIG = {
       order: 2,
       title: "About Me",
       animation: { enter: [142, 151], loop: [152, 224], exit: [225, 337], fps: 30 },
-      camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
+      // Character actually renders right-of-center in this section (confirmed via screenshot + doc's
+      // "Content shifts left" annotation) — treat as character-right for the safe-zone content system.
+      camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "right" },
       character: { outfit: "beige_sweater", pose: "beanbag_sip" },
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
-        { frame: 143, event: "TITLE_IN" },
+        { frame: 145, event: "TITLE_IN" },
         { frame: 151, event: "CONTENT_IN" },
       ],
       content: {
@@ -114,12 +114,14 @@ export const PORTFOLIO_CONFIG = {
       order: 3,
       title: "Skills",
       animation: { enter: [338, 347], loop: [348, 419], exit: [420, 511], fps: 30 },
+      // TRUE center — character genuinely centered, arms open presenting. Left/right column
+      // layout will NOT work here. See layout note below.
       camera: { profile: "focus", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
-      character: { outfit: "yellow_hoodie", pose: "point_forward" },
+      character: { outfit: "yellow_hoodie", pose: "open_present" },
       lighting: { profile: "StudioDark" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
-        { frame: 339, event: "TITLE_IN" },
+        { frame: 343, event: "TITLE_IN" },
         { frame: 347, event: "CONTENT_IN" },
       ],
       content: {
@@ -130,13 +132,11 @@ export const PORTFOLIO_CONFIG = {
           { label: "Backend", items: ["Node.js", "Express.js", "REST APIs", "Authentication"] },
           { label: "Database", items: ["MySQL", "Firebase Firestore", "SQL"] },
           { label: "Tools", items: ["Git", "GitHub", "VS Code", "Postman", "Firebase", "npm", "Vite"] },
-          {
-            label: "Concepts", items: [
-              "Object-Oriented Programming", "Data Structures", "Algorithms", "Responsive Design",
-              "REST API Development", "Authentication", "Database Design", "State Management",
-              "Performance Optimization", "Component Architecture", "AI & ML Fundamentals",
-            ]
-          },
+          { label: "Concepts", items: [
+            "Object-Oriented Programming", "Data Structures", "Algorithms", "Responsive Design",
+            "REST API Development", "Authentication", "Database Design", "State Management",
+            "Performance Optimization", "Component Architecture", "AI & ML Fundamentals",
+          ] },
         ],
       },
     },
@@ -146,12 +146,13 @@ export const PORTFOLIO_CONFIG = {
       order: 4,
       title: "Tech Stack",
       animation: { enter: [512, 521], loop: [522, 540], exit: [541, 656], fps: 30 },
+      // TRUE center, character leaning forward presenting — same layout constraint as Skills.
       camera: { profile: "focus", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
-      character: { outfit: "yellow_hoodie", pose: "present_side" },
+      character: { outfit: "red_hoodie_backpack", pose: "lean_present_side" },
       lighting: { profile: "StudioDark" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
-        { frame: 513, event: "TITLE_IN" },
+        { frame: 516, event: "TITLE_IN" },
         { frame: 521, event: "CONTENT_IN" },
       ],
       content: {
@@ -176,7 +177,7 @@ export const PORTFOLIO_CONFIG = {
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
-        { frame: 658, event: "TITLE_IN" },
+        { frame: 661, event: "TITLE_IN" },
         { frame: 666, event: "CONTENT_IN" },
       ],
       content: {
@@ -216,12 +217,15 @@ export const PORTFOLIO_CONFIG = {
       order: 6,
       title: "Experience",
       animation: { enter: [814, 823], loop: [824, 929], exit: [930, 989], fps: 30 },
+      // TRUE center — binoculars pose, panning. Same layout constraint as Skills/Tech Stack,
+      // EXCEPT the existing card layout for Experience already works (confirmed via screenshot) —
+      // likely because the card was positioned narrow enough to sit beside him. Keep as reference.
       camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
-      character: { outfit: "purple_hoodie_backpack", pose: "binoculars" },
+      character: { outfit: "purple_hoodie_backpack", pose: "binoculars_scan" },
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
-        { frame: 815, event: "TITLE_IN" },
+        { frame: 819, event: "TITLE_IN" },
         { frame: 823, event: "CONTENT_IN" },
       ],
       content: {
@@ -244,12 +248,14 @@ export const PORTFOLIO_CONFIG = {
       order: 7,
       title: "Education",
       animation: { enter: [990, 999], loop: [1000, 1069], exit: [1070, 1132], fps: 30 },
+      // CORRECTED costume: beige_sweater, not light_shirt as previously assumed. TRUE center.
       camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
-      character: { outfit: "light_shirt_backpack", pose: "reading" },
+      character: { outfit: "beige_sweater", pose: "cross_legged_reading" },
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
-        { frame: 991, event: "CONTENT_IN" },
+        { frame: 995, event: "TITLE_IN" },
+        { frame: 999, event: "CONTENT_IN" },
       ],
       content: {
         heading: "Education",
@@ -267,15 +273,16 @@ export const PORTFOLIO_CONFIG = {
       order: 8,
       title: "Achievements",
       animation: { enter: [1133, 1142], loop: [1143, 1204], exit: [1205, 1248], fps: 30 },
+      // CORRECTED costume: blue_button_shirt, not confident_collared_shirt as previously assumed.
       camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
-      character: { outfit: "confident_collared_shirt", pose: "trophy_raise" },
+      character: { outfit: "blue_button_shirt", pose: "trophy_celebration" },
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
-      navbar: { mode: "compact" },
       timeline: [
-        { frame: 1134, event: "TITLE_IN" },
+        { frame: 1138, event: "TITLE_IN" },
         { frame: 1142, event: "CONTENT_IN" },
       ],
+      navbar: { mode: "compact" }, // trophy raised near/above top of frame
       content: {
         heading: "Achievements",
         items: [
@@ -294,16 +301,17 @@ export const PORTFOLIO_CONFIG = {
       id: "contact",
       order: 9,
       title: "Contact",
-      animation: { enter: [1249, 1258], loop: [1259, 1292], exit: null, fps: 30 }, // final section, stays here
+      animation: { enter: [1249, 1258], loop: [1259, 1292], exit: null, fps: 30 }, // final section
+      // CORRECTED costume: green_shirt_white_tee. TRUE center, closeup zoom.
       camera: { profile: "closeup", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
-      character: { outfit: "green_button_shirt", pose: "double_wave" },
+      character: { outfit: "green_shirt_white_tee", pose: "double_wave" },
       lighting: { profile: "DuskGlow" },
       transition: { duration: 900, easing: "power3.out" },
-      navbar: { mode: "compact" },
       timeline: [
-        { frame: 1250, event: "TITLE_IN" },
+        { frame: 1254, event: "TITLE_IN" },
         { frame: 1258, event: "CONTENT_IN" },
       ],
+      navbar: { mode: "compact" }, // double-wave raises both hands into navbar zone
       content: {
         heading: "Contact",
         name: "K. Lokesh",
@@ -326,7 +334,6 @@ export const NAVIGATION = [
   { id: "contact", label: "Contact" },
 ];
 
-// Convenience lookups
 export function getSectionById(id) {
   return PORTFOLIO_CONFIG.sections[id] ?? null;
 }
