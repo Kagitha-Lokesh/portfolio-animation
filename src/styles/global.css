@@ -427,13 +427,12 @@ body::-webkit-scrollbar {
    About Section layout
    ========================================== */
 .about-section-wrapper {
-  max-width: 1000px;
+  max-width: 620px; /* consolidated single column to cleanly clear character's extended arm */
+  width: 100%;
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 32px;
+.about-paragraphs {
+  margin-bottom: 24px;
 }
 
 .about-p {
@@ -444,6 +443,13 @@ body::-webkit-scrollbar {
 
 .about-p:last-child {
   margin-bottom: 0;
+}
+
+.interests-heading {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
 .meta-card h3 {
