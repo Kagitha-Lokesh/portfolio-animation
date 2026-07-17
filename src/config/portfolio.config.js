@@ -87,7 +87,7 @@ export const PORTFOLIO_CONFIG = {
       content: {
         heading: "About Me",
         paragraphs: [
-          "I'm a final-year B.Tech student specializing in Artificial Intelligence and Machine Learning with a strong passion for Full Stack Development.",
+          "I'm a B.Tech graduate specializing in Artificial Intelligence and Machine Learning with a strong passion for Full Stack Development.",
           "My journey into software development started with curiosity and gradually evolved into building real-world applications using Java, React, Node.js, Firebase, SQL, and modern web technologies.",
           "I enjoy designing scalable software systems, solving challenging problems, and continuously learning new technologies. My goal is to become a highly skilled Software Engineer capable of building production-grade applications that make a meaningful impact.",
           "Outside of programming, I enjoy watching movies, anime, exploring new technologies, and creating creative digital experiences.",
@@ -266,7 +266,7 @@ export const PORTFOLIO_CONFIG = {
       content: {
         heading: "Education",
         items: [
-          { level: "Bachelor of Technology", degree: "B.Tech", branch: "Computer Science & Engineering (Artificial Intelligence & Machine Learning)", institution: "Sri Vasavi Institute of Engineering & Technology", status: "Final Year" },
+          { level: "Bachelor of Technology", degree: "B.Tech", branch: "Computer Science & Engineering (Artificial Intelligence & Machine Learning)", institution: "Sri Vasavi Institute of Engineering & Technology", status: "Graduated (2022–2026) • 8.0 CGPA" },
           { level: "Intermediate", institution: "Sri Chaitanya Junior College", location: "Gudivada", duration: "2020–2022" },
           { level: "Secondary School", institution: "Sahayamatha English Medium High School", location: "Mudinepalli", completed: "2020" },
           { level: "Primary School", institution: "Sri Gayatri Vidhyanikethan English Medium School", location: "Vadali" },

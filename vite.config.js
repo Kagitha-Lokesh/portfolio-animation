@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
   Object.assign(process.env, env);
 
   return {
-  plugins: [
+    plugins: [
     react(),
     {
       name: 'serve-frames',
@@ -91,6 +91,11 @@ export default defineConfig(({ mode }) => {
   build: {
     rollupOptions: {
       output: {
+        minify: mode === 'production' ? {
+          compress: {
+            dropConsole: true,
+          },
+        } : false,
         manualChunks(id) {
           if (id.includes('src/renderers/desktop/DesktopRenderer')) {
             return 'renderer-desktop';
