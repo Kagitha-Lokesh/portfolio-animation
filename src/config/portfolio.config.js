@@ -190,6 +190,7 @@ export const PORTFOLIO_CONFIG = {
           {
             title: "DevMentor AI",
             tag: "Flagship Project",
+            liveDemo: "https://javamentor.vercel.app/login",
             description:
               "A production-oriented AI-powered learning platform designed to help developers master Java Full Stack Development through structured learning paths, coding practice, interview preparation, AI assistance, and project-based learning.",
             features: [
@@ -199,15 +200,29 @@ export const PORTFOLIO_CONFIG = {
             ],
           },
           {
-            title: "IPL Information Platform",
+            title: "Log Tracker",
             tag: null,
+            liveDemo: "https://logtrack1.vercel.app/login",
             description:
-              "A React-based web application providing IPL team information, player squads, statistics, quizzes, and an integrated merchandise store.",
-            features: ["Team Details", "Player Squads", "IPL Store", "Product Pages", "Quiz Platform", "Responsive Design", "Modern React Architecture"],
+              "A production-oriented Log Tracker designed to simplify workforce management through secure authentication, attendance tracking, leave management, and administrative operations. The application enables organizations to efficiently monitor employee attendance, manage employee records, generate reports, and streamline daily HR processes with a responsive and user-friendly interface.",
+            features: [
+              "Secure Authentication & Role-Based Access",
+              "Employee Registration & Management",
+              "Attendance Tracking (Check-In / Check-Out)",
+              "Leave Request & Approval System",
+              "Attendance Reports & Analytics",
+              "Employee Dashboard & Admin Panel",
+              "Responsive Design",
+              "REST API Integration",
+              "Database Management",
+              "Modern Java Full Stack Architecture",
+              "Clean UI & Scalable Architecture",
+            ],
           },
           {
             title: "3D Cinematic Portfolio",
             tag: null,
+            liveDemo: "https://lokesh-kagitha-portfolio.vercel.app/",
             description:
               "An interactive cinematic portfolio powered by scroll-driven animation, featuring a frame-based runtime engine, smooth transitions, immersive storytelling, and production-grade rendering techniques.",
             features: ["Canvas Rendering", "Scroll Runtime", "Frame Caching", "Animation Engine", "Responsive Layout", "Interactive UI", "Performance Optimization"],

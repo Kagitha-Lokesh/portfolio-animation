@@ -50,13 +50,15 @@ export function AppStoreCard({ project, index, theme = 'dark' }) {
         )}
 
         <div className="card-cta-row">
-          <Button 
-            variant="secondary" 
-            className="card-cta-btn"
-            onClick={() => project.github ? window.open(project.github, '_blank') : null}
-          >
-            GitHub ↗
-          </Button>
+          {project.github && (
+            <Button 
+              variant="secondary" 
+              className="card-cta-btn"
+              onClick={() => window.open(project.github, '_blank')}
+            >
+              GitHub ↗
+            </Button>
+          )}
           {project.liveDemo && (
             <Button 
               variant="primary" 

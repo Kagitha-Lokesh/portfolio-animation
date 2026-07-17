@@ -1062,6 +1062,56 @@ body::-webkit-scrollbar {
   background-color: var(--accent-mint);
 }
 
+.project-actions-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.project-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.project-action-btn.primary {
+  background-color: var(--accent-mint);
+  color: #111b15;
+}
+
+.project-action-btn.primary:hover {
+  background-color: #5eead4;
+  transform: translateY(-1px);
+}
+
+.project-action-btn.secondary {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: inherit;
+}
+
+.project-action-btn.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .project-action-btn.secondary {
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .project-action-btn.secondary:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
 /* ==========================================
    Experience Section layout
    ========================================== */

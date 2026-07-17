@@ -67,6 +67,31 @@ export function ProjectsSection({ theme, content, hasTriggered = () => false }) 
                 ))}
               </div>
             </div>
+
+            {(activeProject.github || activeProject.liveDemo) && (
+              <div className="project-actions-row">
+                {activeProject.github && (
+                  <a 
+                    href={activeProject.github} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="project-action-btn secondary"
+                  >
+                    GitHub ↗
+                  </a>
+                )}
+                {activeProject.liveDemo && (
+                  <a 
+                    href={activeProject.liveDemo} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="project-action-btn primary"
+                  >
+                    Live Demo ↗
+                  </a>
+                )}
+              </div>
+            )}
           </ContentCard>
         )}
       </div>
