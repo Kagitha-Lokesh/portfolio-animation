@@ -34,6 +34,8 @@ export class FrameLoader {
       if (type === 'BLOB_LOADED') {
         this.loadedCount++;
         this.reportProgress();
+        this.activeConnections = Math.max(0, this.activeConnections - 1);
+        this.processQueue();
       }
 
       else if (type === 'FRAME_DECODED') {
@@ -230,20 +232,15 @@ export class FrameLoader {
       return;
     }
 
-    if (this.activeConnections >= this.maxConnections) return;
+    while (this.activeConnections < this.maxConnections && this.pendingQueue.length > 0) {
+      const index = this.pendingQueue.shift();
+      this.activeConnections++;
 
-    const index = this.pendingQueue.shift();
-    this.activeConnections++;
+      const filename = this.frames[index];
+      const url = `${window.location.origin}/frames/${filename}`;
 
-    const filename = this.frames[index];
-    const url = `${window.location.origin}/frames/${filename}`;
-
-    this.worker.postMessage({ type: 'FETCH_BLOB', index, url });
-
-    setTimeout(() => {
-      this.activeConnections--;
-      this.processQueue();
-    }, 4);
+      this.worker.postMessage({ type: 'FETCH_BLOB', index, url });
+    }
   }
 
   reportProgress() {

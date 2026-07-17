@@ -30,6 +30,8 @@ export class FrameLoader {
       if (type === 'BLOB_LOADED') {
         this.loadedCount++;
         this.reportProgress();
+        this.activeConnections = Math.max(0, this.activeConnections - 1);
+        this.processQueue();
       }
 
       else if (type === 'FRAME_DECODED') {
@@ -251,19 +253,14 @@ export class FrameLoader {
 
   async processQueue() {
     if (this.isPreloadPaused || this.pendingQueue.length === 0) return;
-    if (this.activeConnections >= this.maxConnections) return;
 
-    const index = this.pendingQueue.shift();
-    this.activeConnections++;
+    while (this.activeConnections < this.maxConnections && this.pendingQueue.length > 0) {
+      const index = this.pendingQueue.shift();
+      this.activeConnections++;
 
-    const url = this.flatUrls[index];
-    this.worker.postMessage({ type: 'FETCH_BLOB', index, url });
-
-    // Throttle queue connections slightly to prevent thread choke
-    setTimeout(() => {
-      this.activeConnections--;
-      this.processQueue();
-    }, 4);
+      const url = this.flatUrls[index];
+      this.worker.postMessage({ type: 'FETCH_BLOB', index, url });
+    }
   }
 
   reportProgress() {

@@ -21,7 +21,7 @@ export class CameraManager {
     this.currentCamera = {
       focusX: cameraConfig.focusX,
       focusY: cameraConfig.focusY,
-      zoom: (cameraConfig.zoom !== undefined ? cameraConfig.zoom : 1.0) * profile.zoom,
+      zoom: 1.0, // camera zoom factor is always flat 1.0
       brightness: cameraConfig.brightness !== undefined ? cameraConfig.brightness : 1.0,
       rotation: cameraConfig.rotation || 0,
       parallax: profile.parallax,

@@ -54,6 +54,16 @@ class RuntimeClass {
     this.frameLoader = new FrameLoader(this.frameCache);
     this.frameScheduler = new FrameScheduler(this.frameLoader, this.frameCache);
 
+    // Wire up frame synchronization callback to prevent frame skips during transitions
+    this.playback.onCheckFrameCached = (frameIdx) => this.frameCache.has(frameIdx);
+    this.playback.onLoadFrame = (frameIdx) => {
+      this.frameLoader.loadFrame(frameIdx)
+        .then(loadedImg => {
+          this.frameCache.add(frameIdx, loadedImg, frameIdx);
+        })
+        .catch(() => {});
+    };
+
     this.bounds = {
       sx: 0, sy: 0, sWidth: 0, sHeight: 0,
       x: 0, y: 0, width: 0, height: 0,
@@ -186,7 +196,9 @@ class RuntimeClass {
     this.fpsCount++;
     if (now - this.fpsLastTime >= 1000) {
       const activeFps = Math.round((this.fpsCount * 1000) / (now - this.fpsLastTime));
-      this.updateState({ fps: activeFps });
+      if (activeFps !== this.state.fps) {
+        this.updateState({ fps: activeFps });
+      }
       this.fpsCount = 0;
       this.fpsLastTime = now;
     }

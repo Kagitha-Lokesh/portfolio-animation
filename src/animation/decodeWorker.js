@@ -35,9 +35,13 @@ self.onmessage = async (e) => {
       blobCache.set(index, blob);
       self.postMessage({ type: 'BLOB_LOADED', index, success: true });
     } catch (err) {
-      if (err.name !== 'AbortError') {
-        self.postMessage({ type: 'BLOB_LOADED', index, success: false, error: err.message });
-      }
+      self.postMessage({
+        type: 'BLOB_LOADED',
+        index,
+        success: false,
+        error: err.message,
+        aborted: err.name === 'AbortError'
+      });
     } finally {
       abortControllers.delete(index);
     }

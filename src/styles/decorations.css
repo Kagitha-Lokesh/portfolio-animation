@@ -1,0 +1,698 @@
+/* =========================================================
+   decorations.css  —  V3  (Composition-Correct)
+   ─────────────────────────────────────────────────────────
+   COMPOSITION RULES
+   • Decorations NEVER overlap: character body, content cards, text
+   • z-35: behind content (z-40), behind navbar (z-50)
+   • All positions validated against section safe-zone map
+   ─────────────────────────────────────────────────────────
+   OPACITY SYSTEM
+   • --env-bg:       0.05  background ambient elements
+   • --env-line:     0.08  SVG connection lines
+   • --env-node-bg:  0.50  node glass background
+   • --env-node-txt: 0.62  node label text
+   • --env-particle: 0.10  floating particles
+   • --env-glow:     0.12  glow/bloom effects
+   • --env-fg:       0.15  foreground env elements
+   ========================================================= */
+
+/* ── Base Layer ─────────────────────────────────────────── */
+:root {
+  --env-bg:       0.22;
+  --env-line:     0.28;
+  --env-node-bg:  0.72;
+  --env-node-txt: 0.85;
+  --env-particle: 0.35;
+  --env-glow:     0.28;
+  --env-fg:       0.45;
+}
+
+.section-decorations-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ── Responsive Tiers ───────────────────────────────────── */
+@media (max-width: 767px) {
+  .env-secondary,
+  .env-tertiary { display: none !important; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .env-tertiary { display: none !important; }
+  .env-secondary { opacity: 0.6; }
+}
+
+/* ── Dormant scene: skip GPU compositing entirely ───────── */
+/* This is the #1 GPU fix: 8 out of 9 blur layers are      */
+/* rendered by the GPU even when opacity:0 / display:none. */
+/* content-visibility:hidden tells the browser to skip all  */
+/* painting and compositing for these scenes entirely.      */
+.decoration-scene[data-state="dormant"] {
+  content-visibility: hidden;
+  pointer-events: none;
+}
+
+/* Kill backdrop-filter on dormant & exiting scenes — prevents
+   GPU composite layers from being kept alive while invisible. */
+.decoration-scene[data-state="dormant"] *,
+.decoration-scene[data-state="exiting"] * {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ==========================================================
+   KEYFRAMES — minimal, purposeful set
+   ========================================================== */
+
+/* Gentle vertical float */
+@keyframes env-float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+  50%       { transform: translate(-50%, -50%) translateY(-6px); }
+}
+
+/* Float with very slight rotation */
+@keyframes env-float-rotate {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0px) rotate(0deg); }
+  40%       { transform: translate(-50%, -50%) translateY(-7px) rotate(1deg); }
+  70%       { transform: translate(-50%, -50%) translateY(2px) rotate(-0.8deg); }
+}
+
+/* Breathing scale — Java signature */
+@keyframes env-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%       { transform: translate(-50%, -50%) scale(1.055); }
+}
+
+/* Tiny X orbit — React signature */
+@keyframes env-orbit-xy {
+  0%   { transform: translate(-50%, -50%) translate(0, 0); }
+  25%  { transform: translate(-50%, -50%) translate(7px, -3px); }
+  50%  { transform: translate(-50%, -50%) translate(0, -5px); }
+  75%  { transform: translate(-50%, -50%) translate(-7px, -2px); }
+  100% { transform: translate(-50%, -50%) translate(0, 0); }
+}
+
+/* Glow pulse — Firebase signature */
+@keyframes env-glow-pulse {
+  0%, 100% { opacity: calc(var(--env-fg) * 3.5); filter: brightness(1); }
+  50%       { opacity: calc(var(--env-fg) * 5.5); filter: brightness(1.3); }
+}
+
+/* Vertical drift — SQL signature */
+@keyframes env-drift-v {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  45%       { transform: translate(-50%, -50%) translateY(7px); }
+  75%       { transform: translate(-50%, -50%) translateY(-4px); }
+}
+
+/* Gentle rotation — Git signature */
+@keyframes env-sway {
+  0%, 100% { transform: translate(-50%, -50%) rotate(-1.5deg); }
+  50%       { transform: translate(-50%, -50%) rotate(1.5deg); }
+}
+
+/* Multi-axis particle drift */
+@keyframes env-particle-drift {
+  0%   { transform: translate(0, 0); opacity: calc(var(--env-particle) * 1.5); }
+  30%  { transform: translate(5px, -10px); opacity: calc(var(--env-particle) * 2); }
+  60%  { transform: translate(-4px, -18px); opacity: calc(var(--env-particle) * 1); }
+  80%  { transform: translate(-8px, -8px); opacity: calc(var(--env-particle) * 1.8); }
+  100% { transform: translate(0, 0); opacity: calc(var(--env-particle) * 1.5); }
+}
+
+/* SVG edge pulse */
+@keyframes env-edge-shimmer {
+  0%, 100% { stroke-opacity: 0.28; }
+  50%       { stroke-opacity: 0.55; }
+}
+
+/* SVG data-flow dashoffset */
+@keyframes env-data-flow {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -50; }
+}
+
+/* Cursor blink — Projects signature */
+@keyframes env-cursor-blink {
+  0%, 49%  { opacity: 1; }
+  50%, 100%{ opacity: 0; }
+}
+
+/* Education glow traveling upward — Education signature */
+@keyframes env-glow-travel {
+  0%   { transform: translateY(100%); opacity: 0; }
+  12%  { opacity: 0.9; }
+  88%  { opacity: 0.9; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+
+/* Education milestone breathe */
+@keyframes env-milestone-breathe {
+  0%, 100% { box-shadow: 0 0 5px rgba(0,184,148,0.25); opacity: 0.55; }
+  50%       { box-shadow: 0 0 16px rgba(0,184,148,0.55), 0 0 28px rgba(0,184,148,0.18); opacity: 0.90; }
+}
+
+/* Star twinkle — Achievements signature */
+@keyframes env-star-twinkle {
+  0%   { transform: scale(0) rotate(0deg);   opacity: 0; }
+  20%  { transform: scale(1.2) rotate(20deg); opacity: 0.85; }
+  55%  { transform: scale(0.9) rotate(50deg); opacity: 0.65; }
+  80%  { transform: scale(1.05) rotate(75deg); opacity: 0.40; }
+  100% { transform: scale(0) rotate(90deg);  opacity: 0; }
+}
+
+/* Gold particle rise — Achievements */
+@keyframes env-rise {
+  0%   { transform: translateY(0) scale(1); opacity: 0.20; }
+  70%  { opacity: 0.12; }
+  100% { transform: translateY(-110px) scale(0.5); opacity: 0; }
+}
+
+/* Achievement bloom */
+@keyframes env-bloom {
+  0%, 100% { opacity: calc(var(--env-glow) * 0.8); transform: scale(1); }
+  50%       { opacity: var(--env-glow); transform: scale(1.05); }
+}
+
+/* Achievement rays spin (very slow) */
+@keyframes env-rays-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Orbit — Contact signature */
+@keyframes env-orbit {
+  from { transform: translate(-50%, -50%) rotate(0deg)   translateX(var(--orbit-r, 70px)) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-r, 70px)) rotate(-360deg); }
+}
+
+/* Commit pill fade cycle */
+@keyframes env-commit-cycle {
+  0%, 12%  { opacity: 0; transform: translateX(-4px); }
+  18%, 80% { opacity: 0.65; transform: translateX(0); }
+  90%, 100%{ opacity: 0; transform: translateX(3px); }
+}
+
+/* Math symbol float */
+@keyframes env-math-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.38; }
+  50%       { transform: translateY(-9px) rotate(2deg); opacity: 0.65; }
+}
+
+/* Scale pulse (for orbit rings) */
+@keyframes env-scale-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.98); opacity: 0.6; }
+  50%       { transform: translate(-50%, -50%) scale(1.02); opacity: 1; }
+}
+
+/* Identity panel breathing — Home signature — 35s, opacity only */
+@keyframes env-identity-breathe {
+  0%, 100% { opacity: 0.80; }
+  50%       { opacity: 1.00; }
+}
+
+/* Achievement rail line grows from bottom — section entry */
+@keyframes env-rail-grow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* Milestone icon enters — fades in and drifts up */
+@keyframes env-icon-enter {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 16px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* Warm atmosphere shift — Achievements background */
+@keyframes env-atmo-shift {
+  0%, 100% { opacity: 0.75; }
+  50%       { opacity: 1.00; }
+}
+
+/* Typography opacity breathing — 8-10s */
+@keyframes env-typo-breathe {
+  0%, 100% { opacity: 0.82; }
+  50%       { opacity: 1.00; }
+}
+
+/* Icon pulse — 6-8s */
+@keyframes env-icon-pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50%       { transform: scale(1.04); filter: brightness(1.15); }
+}
+
+/* Entire rail very slow upward drift — 10-12s */
+@keyframes env-rail-drift {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
+}
+
+
+/* ==========================================================
+   BASE SHARED COMPONENTS
+   ========================================================== */
+
+.env-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-particle-drift var(--pd, 14s) ease-in-out infinite;
+  animation-delay: var(--pdd, 0s);
+}
+
+
+/* ==========================================================
+   TECH CONSTELLATION
+   ========================================================== */
+
+.env-constellation {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.env-constellation-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Glass capsule node */
+.env-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(14, 22, 18, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 100px;
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform;
+  /* Default animation (overridden per node via class) */
+  animation: env-float var(--nd, 9s) ease-in-out infinite var(--ndd, 0s);
+}
+
+.env-node--lg { padding: 6px 13px 6px 8px; }
+.env-node--md { padding: 5px 11px 5px 7px; }
+.env-node--sm { padding: 4px 9px  4px 6px; }
+
+/* Per-node animation overrides */
+.env-node--orbit  { animation-name: env-orbit-xy; }
+.env-node--breathe{ animation-name: env-breathe; }
+.env-node--sway   { animation-name: env-sway; }
+.env-node--pulse  { animation-name: env-glow-pulse; }
+.env-node--drift-v{ animation-name: env-drift-v; }
+.env-node--rotate { animation-name: env-float-rotate; }
+
+.env-node-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.env-node--lg .env-node-icon { width: 22px; height: 22px; }
+.env-node--sm .env-node-icon { width: 14px; height: 14px; }
+
+.env-node-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.62);
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+.env-node--sm .env-node-label { font-size: 10px; }
+.env-node--lg .env-node-label { font-size: 12px; }
+
+/* Node glow halo */
+.env-node-halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 100px;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-scale-pulse var(--nh, 5s) ease-in-out infinite var(--ndd, 0s);
+}
+
+
+/* ==========================================================
+   PROJECTS ENVIRONMENT
+   ========================================================== */
+
+.env-terminal {
+  position: absolute;
+  background: rgba(8, 14, 10, 0.62);
+  border: 1px solid rgba(0, 184, 148, 0.16);
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(0, 184, 148, 0.70);
+  pointer-events: none;
+  will-change: transform;
+  animation: env-float var(--nd, 11s) ease-in-out infinite var(--ndd, 0s);
+}
+
+.env-terminal-bar {
+  height: 22px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 7px 7px 0 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+}
+
+.env-terminal-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+}
+
+.env-terminal-body {
+  padding: 9px 12px;
+  line-height: 1.8;
+}
+
+.env-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  background: rgba(0, 184, 148, 0.80);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: env-cursor-blink 1s step-end infinite;
+}
+
+.env-code-window {
+  position: absolute;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  background: rgba(10, 16, 12, 0.40);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform;
+  animation: env-float var(--nd, 12s) ease-in-out infinite var(--ndd, 0s);
+}
+
+.env-code-window-bar {
+  height: 20px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+}
+
+.env-code-line {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.07);
+  margin: 5px 10px;
+}
+
+.env-code-line--accent {
+  background: rgba(0, 184, 148, 0.15);
+}
+
+.env-commit-pill {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.50);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 100px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-commit-cycle var(--cd, 10s) ease-in-out infinite var(--cdd, 0s);
+}
+
+.env-folder-label {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.25);
+  line-height: 1.7;
+  pointer-events: none;
+  will-change: transform;
+  animation: env-float var(--nd, 11s) ease-in-out infinite var(--ndd, 0s);
+}
+
+
+/* ==========================================================
+   EXPERIENCE ENVIRONMENT
+   ========================================================== */
+
+.env-arch-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 184, 148, 0.20);
+  background: rgba(0, 18, 12, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 7px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: rgba(0, 184, 148, 0.65);
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-glow-pulse var(--nd, 7s) ease-in-out infinite var(--ndd, 0s);
+}
+
+.env-arch-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.env-label-pill {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: rgba(0, 184, 148, 0.42);
+  background: rgba(0, 184, 148, 0.05);
+  border: 1px solid rgba(0, 184, 148, 0.10);
+  border-radius: 100px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform;
+  animation: env-float var(--nd, 9s) ease-in-out infinite var(--ndd, 0s);
+}
+
+
+/* ==========================================================
+   EDUCATION ENVIRONMENT
+   ========================================================== */
+
+.env-timeline {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.env-milestone {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 184, 148, 0.32);
+  background: rgba(0, 184, 148, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: box-shadow, opacity;
+  animation: env-milestone-breathe var(--nd, 7s) ease-in-out infinite var(--ndd, 0s);
+  will-change: box-shadow, opacity;
+}
+
+.env-milestone--active {
+  width: 36px;
+  height: 36px;
+  border-color: rgba(0, 184, 148, 0.80);
+  background: rgba(0, 184, 148, 0.14);
+  box-shadow: 0 0 16px rgba(0,184,148,0.28);
+}
+
+.env-milestone-label {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(0, 184, 148, 0.48);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.env-connector {
+  position: relative;
+  width: 1.5px;
+  height: 50px;
+  background: rgba(0, 184, 148, 0.10);
+  overflow: hidden;
+}
+
+.env-connector-glow {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 28%;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(0,184,148,0.90) 45%,
+    rgba(0,184,148,0.90) 55%,
+    transparent 100%
+  );
+  animation: env-glow-travel 5s ease-in-out infinite;
+  animation-delay: var(--gd, 0s);
+}
+
+.env-math-symbol {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-style: italic;
+  color: rgba(130, 190, 170, 0.55);
+  user-select: none;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-math-float var(--nd, 10s) ease-in-out infinite var(--ndd, 0s);
+}
+
+
+/* ==========================================================
+   ACHIEVEMENTS ENVIRONMENT
+   ========================================================== */
+
+.env-bloom {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-bloom var(--nd, 5s) ease-in-out infinite var(--ndd, 0s);
+}
+
+.env-rise-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-rise var(--nd, 4s) ease-out infinite var(--ndd, 0s);
+}
+
+.env-star {
+  position: absolute;
+  pointer-events: none;
+  color: rgba(253, 203, 110, 0.85);
+  line-height: 1;
+  will-change: transform, opacity;
+  animation: env-star-twinkle var(--nd, 3s) ease-in-out infinite var(--ndd, 0s);
+  will-change: transform, opacity;
+}
+
+.env-rays {
+  position: absolute;
+  pointer-events: none;
+  animation: env-rays-spin 90s linear infinite;
+}
+
+.env-ray {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(253,203,110,0.05), transparent 75%);
+}
+
+
+/* ==========================================================
+   CONTACT ENVIRONMENT
+   ========================================================== */
+
+.env-orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 184, 148, 0.07);
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-scale-pulse 12s ease-in-out infinite var(--rdd, 0s);
+}
+
+.env-orbit-pill {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(10, 18, 14, 0.58);
+  border: 1px solid rgba(0, 184, 148, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 100px;
+  padding: 5px 10px 5px 7px;
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform;
+  animation: env-orbit var(--od, 20s) linear infinite var(--odd, 0s);
+  will-change: transform;
+}
+
+.env-orbit-pill-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(0, 184, 148, 0.68);
+  letter-spacing: 0.04em;
+}
+
+.env-orbit-center {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: env-bloom 4s ease-in-out infinite;
+}
+
+
+/* ==========================================================
+   REDUCED MOTION
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .env-node, .env-node-halo,
+  .env-particle,
+  .env-terminal, .env-code-window,
+  .env-commit-pill, .env-folder-label,
+  .env-arch-node, .env-label-pill,
+  .env-milestone, .env-connector-glow, .env-math-symbol,
+  .env-bloom, .env-rise-particle, .env-star, .env-rays,
+  .env-orbit-ring, .env-orbit-pill, .env-orbit-center {
+    animation: none !important;
+    opacity: 0.08 !important;
+  }
+  .env-cursor { animation: none !important; opacity: 1 !important; }
+}

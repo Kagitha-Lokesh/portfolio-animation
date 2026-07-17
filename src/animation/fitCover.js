@@ -8,21 +8,21 @@ export const DEVICE_PROFILES = {
     safeZone: 'Left 38%',
     focusX: 0.38,
     focusY: 0.50,
-    cacheLimit: 120 * 1024 * 1024 // 120MB (~15 decoded frames)
+    cacheLimit: 1200 * 1024 * 1024 // 1.2GB cache (~144 decoded frames)
   },
   TABLET: {
     name: 'TABLET',
     safeZone: 'Centered Bottom',
     focusX: 0.50,
     focusY: 0.50,
-    cacheLimit: 80 * 1024 * 1024 // 80MB (~10 decoded frames)
+    cacheLimit: 600 * 1024 * 1024 // 600MB cache (~72 decoded frames)
   },
   MOBILE: {
     name: 'MOBILE',
     safeZone: 'Top 30%',
     focusX: 0.50,
     focusY: 0.30,
-    cacheLimit: 60 * 1024 * 1024 // 60MB (~7 decoded frames)
+    cacheLimit: 300 * 1024 * 1024 // 300MB cache (~36 decoded frames)
   }
 };
 
@@ -45,14 +45,31 @@ const boundsInstance = {
 };
 
 /**
+ * Module-level cache: avoids DOM read on every draw frame.
+ * Invalidated only on window resize.
+ */
+let _cachedProfile = null;
+let _cachedWidth   = -1;
+
+/**
  * Returns active profile based on viewport size.
+ * Result is cached and only recomputed when the viewport width changes.
  * @returns {object}
  */
 export function getDeviceProfile() {
   const width = window.innerWidth;
-  if (width <= 480) return DEVICE_PROFILES.MOBILE;
-  if (width <= 768) return DEVICE_PROFILES.TABLET;
-  return DEVICE_PROFILES.DESKTOP;
+  if (width === _cachedWidth && _cachedProfile) return _cachedProfile;
+  _cachedWidth = width;
+  if (width <= 480) _cachedProfile = DEVICE_PROFILES.MOBILE;
+  else if (width <= 768) _cachedProfile = DEVICE_PROFILES.TABLET;
+  else _cachedProfile = DEVICE_PROFILES.DESKTOP;
+  return _cachedProfile;
+}
+
+/** Call this on window resize to bust the profile cache. */
+export function invalidateDeviceProfileCache() {
+  _cachedWidth   = -1;
+  _cachedProfile = null;
 }
 
 /**

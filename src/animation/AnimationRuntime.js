@@ -212,7 +212,11 @@ class AnimationRuntimeClass {
     this.fpsFrameCount++;
     if (now - this.fpsLastTime >= 1000) {
       const activeFps = Math.round((this.fpsFrameCount * 1000) / (now - this.fpsLastTime));
-      this.updateState({ fps: activeFps });
+      // Only notify listeners if fps value actually changed — avoids firing
+      // the full subscriber chain every second just to report the same value.
+      if (activeFps !== this.state.fps) {
+        this.updateState({ fps: activeFps });
+      }
       this.fpsFrameCount = 0;
       this.fpsLastTime = now;
     }
@@ -245,14 +249,22 @@ class AnimationRuntimeClass {
         }
       }
 
-      this.updateState({
-        scrollProgress,
-        targetFrame: Math.round(targetFrame),
-        currentFrame: currentFrameIndex,
-        runtimeState: nextRuntimeState
-      });
+      // Only call updateState (which notifies all subscribers) when something
+      // actually changed. Idle ticks where nothing moves skip the listener chain.
+      const scrollChanged   = scrollProgress !== this.state.scrollProgress;
+      const frameChanged    = currentFrameIndex !== this.lastFrameIndex;
+      const stateChanged    = nextRuntimeState !== this.state.runtimeState;
 
-      if (currentFrameIndex !== this.lastFrameIndex) {
+      if (scrollChanged || frameChanged || stateChanged) {
+        this.updateState({
+          scrollProgress,
+          targetFrame: Math.round(targetFrame),
+          currentFrame: currentFrameIndex,
+          runtimeState: nextRuntimeState
+        });
+      }
+
+      if (frameChanged) {
         this.draw();
         
         if (scrollVelocity !== 0) {

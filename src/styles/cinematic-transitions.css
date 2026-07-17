@@ -1,0 +1,347 @@
+/**
+ * cinematic-transitions.css
+ *
+ * Cinematic Transition System 2.0 — CSS layer.
+ *
+ * Defines:
+ *   1. Persistent decoration scene states (dormant/entering/active/looping/exiting)
+ *   2. Scene temperature → glass reflection mapping
+ *   3. Motion depth parallax layer markers
+ *   4. Environmental wind micro-motion helpers
+ *   5. Cinematic content-card state classes
+ *   6. Section-specific DNA CSS custom properties
+ *   7. Overlay container cinematic states
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   1. PERSISTENT DECORATION SCENE STATES
+   All 9 decoration scenes live in the DOM simultaneously.
+   CSS controls visibility + transitions — no React unmounting.
+   Direction-aware: data-dir="1" (forward) or data-dir="-1" (backward)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.section-decorations-root {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Base: all scenes */
+.decoration-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: opacity, transform, filter;
+  /* Transition fires whenever data-state changes */
+  transition:
+    opacity  0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    filter   0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── DORMANT: completely hidden from GPU compositor ────────────────── */
+.decoration-scene[data-state="dormant"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  filter: blur(4px);
+  /* Pause CSS animations to save CPU */
+  animation-play-state: paused !important;
+  /* No transition out of dormant (goes directly to entering) */
+  transition: none;
+}
+.decoration-scene[data-state="dormant"] * {
+  animation-play-state: paused !important;
+}
+
+/* ── ENTERING: intermediate state — visible but offset, transitions to active ── */
+.decoration-scene[data-state="entering"] {
+  opacity: 0;
+  visibility: visible;
+  transform: translateY(16px);
+  filter: blur(3px);
+  animation-play-state: running !important;
+  /* No transition on entering itself — JS sets 'active' on next frame */
+  transition: none;
+}
+.decoration-scene[data-state="entering"] * {
+  animation-play-state: running !important;
+}
+
+/* Forward entry — enters from below */
+.decoration-scene[data-state="entering"][data-dir="1"] {
+  transform: translateY(18px);
+}
+
+/* Backward entry — enters from above */
+.decoration-scene[data-state="entering"][data-dir="-1"] {
+  transform: translateY(-18px);
+}
+
+/* ── ACTIVE: fully visible, CSS transition slides/sharpens it in ───── */
+.decoration-scene[data-state="active"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  filter: blur(0px);
+  animation-play-state: running !important;
+  transition:
+    opacity  0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    filter   0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.decoration-scene[data-state="active"] * {
+  animation-play-state: running !important;
+}
+
+/* ── LOOPING: same as active — ambient life running ─────────────────── */
+.decoration-scene[data-state="looping"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  filter: blur(0px);
+  animation-play-state: running !important;
+  transition:
+    opacity  0.5s ease,
+    transform 0.5s ease,
+    filter   0.4s ease;
+}
+.decoration-scene[data-state="looping"] * {
+  animation-play-state: running !important;
+}
+
+/* ── EXITING: scene dissolves — direction-aware ──────────────────────── */
+.decoration-scene[data-state="exiting"] {
+  opacity: 0;
+  visibility: visible;
+  animation-play-state: running !important;
+  transition:
+    opacity  0.45s cubic-bezier(0.4, 0, 1, 1),
+    transform 0.45s cubic-bezier(0.4, 0, 1, 1),
+    filter   0.35s ease-in;
+  filter: blur(2px);
+}
+
+/* Forward exit — scene drifts upward as it leaves */
+.decoration-scene[data-state="exiting"][data-dir="1"] {
+  transform: translateY(-12px);
+}
+
+/* Backward exit — scene drifts downward as it leaves */
+.decoration-scene[data-state="exiting"][data-dir="-1"] {
+  transform: translateY(12px);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   2. SCENE TEMPERATURE → GLASS REFLECTION MAPPING
+   Applied by ThemeAnimator to <body data-temperature="warm|cool|gold|teal">
+   Cards inherit --scene-rgb and adjust their glass highlight accordingly.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Default (no temperature set) */
+.content-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 42%;
+  pointer-events: none;
+  transition: background 0.8s ease;
+  border-radius: inherit;
+}
+
+/* Warm Morning — top-left angled reflection, amber tint */
+body[data-temperature="warm"] .content-card::before {
+  background: linear-gradient(160deg,
+    rgba(255, 200, 120, 0.07) 0%,
+    rgba(255, 170, 80,  0.03) 40%,
+    transparent 70%
+  );
+}
+
+/* Studio Dark — top overhead cool reflection */
+body[data-temperature="cool"] .content-card::before {
+  background: linear-gradient(180deg,
+    rgba(100, 210, 255, 0.07) 0%,
+    rgba(97,  218, 251, 0.03) 40%,
+    transparent 65%
+  );
+}
+
+/* Gold — warm angled rim lighting from upper-left */
+body[data-temperature="gold"] .content-card::before {
+  background: linear-gradient(145deg,
+    rgba(255, 210, 80,  0.10) 0%,
+    rgba(200, 155, 40,  0.05) 50%,
+    transparent 75%
+  );
+}
+
+/* Teal — cool mint reflection */
+body[data-temperature="teal"] .content-card::before {
+  background: linear-gradient(170deg,
+    rgba(0,   220, 180, 0.08) 0%,
+    rgba(0,   184, 148, 0.04) 45%,
+    transparent 70%
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   3. SECTION DNA CSS CUSTOM PROPERTIES
+   Applied to .decoration-scene[data-section] elements.
+   Modules and cards inherit --scene-rgb for accent colors.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.decoration-scene[data-section="home"]         { --scene-rgb: 28, 72, 50;    --scene-glow: rgba(0,184,148,0.12); }
+.decoration-scene[data-section="about"]        { --scene-rgb: 0, 184, 148;   --scene-glow: rgba(0,184,148,0.10); }
+.decoration-scene[data-section="skills"]       { --scene-rgb: 0, 184, 148;   --scene-glow: rgba(0,184,148,0.15); }
+.decoration-scene[data-section="techstack"]    { --scene-rgb: 97, 218, 251;  --scene-glow: rgba(97,218,251,0.10); }
+.decoration-scene[data-section="projects"]     { --scene-rgb: 0, 184, 148;   --scene-glow: rgba(0,184,148,0.12); }
+.decoration-scene[data-section="experience"]   { --scene-rgb: 0, 184, 148;   --scene-glow: rgba(0,184,148,0.10); }
+.decoration-scene[data-section="education"]    { --scene-rgb: 130, 190, 170; --scene-glow: rgba(130,190,170,0.10); }
+.decoration-scene[data-section="achievements"] { --scene-rgb: 180, 130, 48;  --scene-glow: rgba(180,130,48,0.18); }
+.decoration-scene[data-section="contact"]      { --scene-rgb: 0, 184, 148;   --scene-glow: rgba(0,200,170,0.15); }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   4. MOTION DEPTH LAYER MARKERS
+   OverlayAnimator applies depth parallax on scroll tension.
+   These data attributes are applied by the overlay + decoration components.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+[data-layer="ambient"]     { will-change: transform; }
+[data-layer="decoration"]  { will-change: transform; }
+[data-layer="glass"]       { will-change: transform, opacity; }
+[data-layer="typography"]  { will-change: transform, opacity, filter; }
+[data-layer="interactive"] { will-change: transform, opacity; }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   5. CINEMATIC CONTENT CARD STATES
+   Applied by CardAnimator. Cards have 4 states per transition.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Preparing to exit: glass loses contrast, cards quiet down */
+.section-overlay-container[data-cinematic-state="preparing"] .content-card {
+  filter: brightness(0.96);
+  transition: filter 0.2s ease;
+}
+
+/* Dissolving: handled by GSAP (blur + scale + opacity) */
+
+/* Active: cards are fully interactive */
+.section-overlay-container[data-cinematic-state="active"] .content-card {
+  filter: brightness(1);
+  transition: filter 0.4s ease;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   6. TEMPERATURE → MOTION PHYSICS
+   CSS transitions scale with temperature to match video physics.
+   Used for hover effects, so they feel native to the scene.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Warm — slower, larger easing */
+body[data-temperature="warm"] .fade-element {
+  transition-duration: 0.9s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Cool — sharper, faster */
+body[data-temperature="cool"] .fade-element {
+  transition-duration: 0.6s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Gold — bouncy, celebratory */
+body[data-temperature="gold"] .fade-element {
+  transition-duration: 0.8s;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Teal — orbital, smooth */
+body[data-temperature="teal"] .fade-element {
+  transition-duration: 0.75s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   7. SECTION OVERLAY CINEMATIC STATES
+   Replace the old .fade-entering / .fade-leaving with cinematic states.
+   GSAP still does the heavy lifting — CSS defines the resting states.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Old classes kept for backward compat during migration */
+.fade-leaving {
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.35s ease-in, transform 0.35s ease-in;
+}
+
+.fade-entering {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* New cinematic states (set by OverlayAnimator via data attribute) */
+.section-overlay-container[data-cinematic-state="idle"],
+.section-overlay-container[data-cinematic-state="looping"] {
+  pointer-events: auto;
+}
+
+.section-overlay-container[data-cinematic-state="preparing"],
+.section-overlay-container[data-cinematic-state="exiting"],
+.section-overlay-container[data-cinematic-state="dissolved"] {
+  pointer-events: none;
+}
+
+.section-overlay-container[data-cinematic-state="building"],
+.section-overlay-container[data-cinematic-state="active"] {
+  pointer-events: auto;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   8. ENVIRONMENTAL WIND — CSS KEYFRAME HELPERS
+   AmbientAnimator controls these via GSAP, but CSS fallbacks keep
+   elements subtly alive even before JS initializes.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@keyframes cinematic-wind-drift {
+  0%,  100% { transform: translateX(0); }
+  50%        { transform: translateX(0.4px); }
+}
+
+@keyframes cinematic-breathe-soft {
+  0%,  100% { opacity: var(--breathe-min, 0.82); }
+  50%        { opacity: var(--breathe-max, 1.00); }
+}
+
+@keyframes cinematic-rise-float {
+  0%   { transform: translateY(0) scale(1);    opacity: 0.2; }
+  70%  { opacity: 0.12; }
+  100% { transform: translateY(-110px) scale(0.5); opacity: 0; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   9. SCROLL PROGRESS RAIL — CINEMATIC STATES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.scroll-progress-rail {
+  transition: opacity 0.3s ease;
+}
+
+/* Rail dims during active transition */
+body[data-cinematic-state="EXIT_SYNC"] .scroll-progress-rail,
+body[data-cinematic-state="ENV_DISSOLVE"] .scroll-progress-rail,
+body[data-cinematic-state="SCENE_SWAP"] .scroll-progress-rail {
+  opacity: 0.4;
+}

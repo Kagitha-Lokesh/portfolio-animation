@@ -85,17 +85,14 @@ export class FrameScheduler {
       }
     }
 
-    // 3. Predictive Preload: Look ahead at the next/previous section depending on direction
+    // 3. Predictive Preload: Look ahead at next and previous sections
     const sectionIds = Object.keys(sections);
     const currentIndex = sectionIds.indexOf(sectionId);
     
-    if (direction === 1) {
-      // Preload next section
+    const preloadNext = () => {
       const nextIndex = currentIndex + 1;
       if (nextIndex < sectionIds.length) {
-        const nextSecId = sectionIds[nextIndex];
-        const nextSec = sections[nextSecId];
-        
+        const nextSec = sections[sectionIds[nextIndex]];
         // Queue next enter frames
         for (let i = nextSec.animation.enter[0]; i <= nextSec.animation.enter[1]; i++) {
           this.loader.queueFrame(i);
@@ -105,13 +102,12 @@ export class FrameScheduler {
           this.loader.queueFrame(i);
         }
       }
-    } else {
-      // Preload previous section
+    };
+
+    const preloadPrev = () => {
       const prevIndex = currentIndex - 1;
       if (prevIndex >= 0) {
-        const prevSecId = sectionIds[prevIndex];
-        const prevSec = sections[prevSecId];
-        
+        const prevSec = sections[sectionIds[prevIndex]];
         // Queue previous loop frames
         for (let i = prevSec.animation.loop[0]; i <= prevSec.animation.loop[1]; i++) {
           this.loader.queueFrame(i);
@@ -122,6 +118,19 @@ export class FrameScheduler {
             this.loader.queueFrame(i);
           }
         }
+      }
+    };
+
+    if (state === 'SECTION_LOOP' || state === 'SECTION_ACTIVE') {
+      // Idle/Looping: Preload both directions to be fully prepared
+      preloadNext();
+      preloadPrev();
+    } else {
+      // Transitioning: Only preload the target direction
+      if (direction === 1) {
+        preloadNext();
+      } else {
+        preloadPrev();
       }
     }
 

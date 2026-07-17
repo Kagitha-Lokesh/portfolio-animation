@@ -35,7 +35,9 @@ export class ScrollManager {
       }
     });
 
-    gsap.ticker.lagSmoothing(0);
+    // Cap GSAP time-catch-up: prevents burst frame storms on slow hardware or
+    // when returning to a background tab. 500ms threshold / 33ms max lag-gap.
+    gsap.ticker.lagSmoothing(500, 33);
   }
 
   /**

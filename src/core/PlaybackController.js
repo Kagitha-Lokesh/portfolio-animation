@@ -64,6 +64,21 @@ export class PlaybackController {
     const elapsed = now - this.lastFrameTime;
 
     if (elapsed >= frameDurationMs) {
+      const nextFrame = this.direction === 1 ? this.currentFrame + 1 : this.currentFrame - 1;
+
+      // During non-looping transitions, synchronize playback:
+      // only advance frame cursor if the next frame is already loaded in the cache.
+      if (!this.isLooping && nextFrame >= this.startFrame && nextFrame <= this.endFrame) {
+        const isNextFrameCached = this.onCheckFrameCached ? this.onCheckFrameCached(nextFrame) : true;
+        if (!isNextFrameCached) {
+          // Trigger on-demand background fetch so it begins loading and doesn't deadlock
+          if (this.onLoadFrame) {
+            this.onLoadFrame(nextFrame);
+          }
+          return;
+        }
+      }
+
       this.lastFrameTime = now - (elapsed % frameDurationMs);
 
       if (this.direction === 1) {

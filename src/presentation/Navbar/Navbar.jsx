@@ -6,18 +6,18 @@ import { gsap } from 'gsap';
 
 const NAVBAR_STYLES = {
   default: {
-    height: 88,
+    height: 64,              // was 88 — reduce baseline size globally
     translateY: 0,
     blur: 20,
     backgroundOpacity: 0.45,
-    padding: '20px 32px',
+    padding: '12px 28px',    // was 20px 32px
   },
   compact: {
-    height: 60,
+    height: 52,               // was 60 — proportionally reduced
     translateY: -6,
     blur: 28,
     backgroundOpacity: 0.62,
-    padding: '10px 24px',
+    padding: '8px 20px',
   },
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { AnimationRuntime } from './AnimationRuntime';
 import { ScrollManager } from './ScrollManager';
+import { invalidateDeviceProfileCache } from './fitCover';
 
 /**
  * CanvasRenderer Component
@@ -21,6 +22,8 @@ export function CanvasRenderer() {
         clearTimeout(resizeTimeoutRef.current);
       }
 
+      // Bust device profile cache immediately so subsequent reads use new viewport
+      invalidateDeviceProfileCache();
       AnimationRuntime.updateState({ runtimeState: 'RESIZING' });
 
       resizeTimeoutRef.current = setTimeout(() => {

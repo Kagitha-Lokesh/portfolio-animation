@@ -29,10 +29,10 @@ export const PORTFOLIO_CONFIG = {
   ],
 
   cameraProfiles: {
-    wide: { zoom: 1.0, parallax: 0.05 },
-    present: { zoom: 1.0, parallax: 0.08 },
-    focus: { zoom: 1.0, parallax: 0.12 },
-    closeup: { zoom: 1.0, parallax: 0.1 }, // zoom will animate in a later pass; flat 1.0 for now per doc
+    wide: { parallax: 0.05 },
+    present: { parallax: 0.08 },
+    focus: { parallax: 0.12 },
+    closeup: { parallax: 0.1 },
   },
 
   lightingProfiles: {
@@ -44,9 +44,10 @@ export const PORTFOLIO_CONFIG = {
   sections: {
     home: {
       id: "home",
+      theme: "light",
       order: 1,
       title: "Home",
-      animation: { enter: [0, 24], loop: [25, 59], exit: [60, 141], fps: 30 },
+      animation: { enter: [0, 24], loop: [25, 57], exit: [60, 141], fps: 30 },
       camera: { profile: "wide", focusX: 0.38, focusY: 0.5, rotation: 0, safeZone: "left" },
       character: { outfit: "green_hoodie_backpack", pose: "stride_to_wave" },
       lighting: { profile: "WarmMorning" },
@@ -69,9 +70,10 @@ export const PORTFOLIO_CONFIG = {
 
     about: {
       id: "about",
+      theme: "light",
       order: 2,
       title: "About Me",
-      animation: { enter: [142, 151], loop: [152, 224], exit: [225, 337], fps: 30 },
+      animation: { enter: [142, 151], loop: [152, 222], exit: [225, 337], fps: 30 },
       // Character actually renders right-of-center in this section (confirmed via screenshot + doc's
       // "Content shifts left" annotation) — treat as character-right for the safe-zone content system.
       camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "right" },
@@ -80,7 +82,7 @@ export const PORTFOLIO_CONFIG = {
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 145, event: "TITLE_IN" },
-        { frame: 151, event: "CONTENT_IN" },
+        { frame: 147, event: "CONTENT_IN" },
       ],
       content: {
         heading: "About Me",
@@ -111,9 +113,10 @@ export const PORTFOLIO_CONFIG = {
 
     skills: {
       id: "skills",
+      theme: "dark",
       order: 3,
       title: "Skills",
-      animation: { enter: [338, 347], loop: [348, 419], exit: [420, 511], fps: 30 },
+      animation: { enter: [338, 347], loop: [348, 417], exit: [420, 511], fps: 30 },
       // TRUE center — character genuinely centered, arms open presenting. Left/right column
       // layout will NOT work here. See layout note below.
       camera: { profile: "focus", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
@@ -122,7 +125,7 @@ export const PORTFOLIO_CONFIG = {
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 343, event: "TITLE_IN" },
-        { frame: 347, event: "CONTENT_IN" },
+        { frame: 345, event: "CONTENT_IN" },
       ],
       content: {
         heading: "Skills",
@@ -131,11 +134,10 @@ export const PORTFOLIO_CONFIG = {
           { label: "Frontend", items: ["React", "Bootstrap", "Responsive Design", "Component Architecture", "Modern CSS"] },
           { label: "Backend", items: ["Node.js", "Express.js", "REST APIs", "Authentication"] },
           { label: "Database", items: ["MySQL", "Firebase Firestore", "SQL"] },
-          { label: "Tools", items: ["Git", "GitHub", "VS Code", "Postman", "Firebase", "npm", "Vite"] },
+          { label: "Tools", items: ["Git", "GitHub", "VS Code", "Postman", "npm", "Vite"] },
           { label: "Concepts", items: [
-            "Object-Oriented Programming", "Data Structures", "Algorithms", "Responsive Design",
-            "REST API Development", "Authentication", "Database Design", "State Management",
-            "Performance Optimization", "Component Architecture", "AI & ML Fundamentals",
+            "Object-Oriented Programming", "Data Structures", "Algorithms", "State Management",
+            "Performance Optimization", "AI & ML Fundamentals",
           ] },
         ],
       },
@@ -143,17 +145,18 @@ export const PORTFOLIO_CONFIG = {
 
     techstack: {
       id: "techstack",
+      theme: "dark",
       order: 4,
       title: "Tech Stack",
-      animation: { enter: [512, 521], loop: [522, 540], exit: [541, 656], fps: 30 },
+      animation: { enter: [512, 521], loop: [522, 597], exit: [600, 656], fps: 30 },
       // TRUE center, character leaning forward presenting — same layout constraint as Skills.
-      camera: { profile: "focus", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
+      camera: { profile: "focus", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "left" },
       character: { outfit: "red_hoodie_backpack", pose: "lean_present_side" },
       lighting: { profile: "StudioDark" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 516, event: "TITLE_IN" },
-        { frame: 521, event: "CONTENT_IN" },
+        { frame: 518, event: "CONTENT_IN" },
       ],
       content: {
         heading: "Tech Stack",
@@ -169,16 +172,17 @@ export const PORTFOLIO_CONFIG = {
 
     projects: {
       id: "projects",
+      theme: "light",
       order: 5,
       title: "Projects",
-      animation: { enter: [657, 666], loop: [667, 774], exit: [775, 813], fps: 30 },
-      camera: { profile: "wide", focusX: 0.38, focusY: 0.5, rotation: 0, safeZone: "left" },
+      animation: { enter: [657, 666], loop: [667, 772], exit: [775, 813], fps: 30 },
+      camera: { profile: "wide", focusX: 0.38, focusY: 0.5, rotation: 0, safeZone: "right" },
       character: { outfit: "red_hoodie", pose: "desk_typing" },
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 661, event: "TITLE_IN" },
-        { frame: 666, event: "CONTENT_IN" },
+        { frame: 663, event: "CONTENT_IN" },
       ],
       content: {
         heading: "Projects",
@@ -214,9 +218,10 @@ export const PORTFOLIO_CONFIG = {
 
     experience: {
       id: "experience",
+      theme: "light",
       order: 6,
       title: "Experience",
-      animation: { enter: [814, 823], loop: [824, 929], exit: [930, 989], fps: 30 },
+      animation: { enter: [814, 823], loop: [824, 927], exit: [930, 989], fps: 30 },
       // TRUE center — binoculars pose, panning. Same layout constraint as Skills/Tech Stack,
       // EXCEPT the existing card layout for Experience already works (confirmed via screenshot) —
       // likely because the card was positioned narrow enough to sit beside him. Keep as reference.
@@ -226,7 +231,7 @@ export const PORTFOLIO_CONFIG = {
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 819, event: "TITLE_IN" },
-        { frame: 823, event: "CONTENT_IN" },
+        { frame: 821, event: "CONTENT_IN" },
       ],
       content: {
         heading: "Experience",
@@ -245,9 +250,10 @@ export const PORTFOLIO_CONFIG = {
 
     education: {
       id: "education",
+      theme: "light",
       order: 7,
       title: "Education",
-      animation: { enter: [990, 999], loop: [1000, 1069], exit: [1070, 1132], fps: 30 },
+      animation: { enter: [990, 999], loop: [1000, 1067], exit: [1070, 1132], fps: 30 },
       // CORRECTED costume: beige_sweater, not light_shirt as previously assumed. TRUE center.
       camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
       character: { outfit: "beige_sweater", pose: "cross_legged_reading" },
@@ -255,7 +261,7 @@ export const PORTFOLIO_CONFIG = {
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 995, event: "TITLE_IN" },
-        { frame: 999, event: "CONTENT_IN" },
+        { frame: 997, event: "CONTENT_IN" },
       ],
       content: {
         heading: "Education",
@@ -270,17 +276,18 @@ export const PORTFOLIO_CONFIG = {
 
     achievements: {
       id: "achievements",
+      theme: "light",
       order: 8,
       title: "Achievements",
-      animation: { enter: [1133, 1142], loop: [1143, 1204], exit: [1205, 1248], fps: 30 },
+      animation: { enter: [1133, 1142], loop: [1143, 1202], exit: [1205, 1248], fps: 30 },
       // CORRECTED costume: blue_button_shirt, not confident_collared_shirt as previously assumed.
-      camera: { profile: "present", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
+      camera: { profile: "present", focusX: 0.42, focusY: 0.5, rotation: 0, safeZone: "left" },
       character: { outfit: "blue_button_shirt", pose: "trophy_celebration" },
       lighting: { profile: "WarmMorning" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 1138, event: "TITLE_IN" },
-        { frame: 1142, event: "CONTENT_IN" },
+        { frame: 1140, event: "CONTENT_IN" },
       ],
       navbar: { mode: "compact" }, // trophy raised near/above top of frame
       content: {
@@ -299,17 +306,18 @@ export const PORTFOLIO_CONFIG = {
 
     contact: {
       id: "contact",
+      theme: "dark",
       order: 9,
       title: "Contact",
       animation: { enter: [1249, 1258], loop: [1259, 1292], exit: null, fps: 30 }, // final section
       // CORRECTED costume: green_shirt_white_tee. TRUE center, closeup zoom.
-      camera: { profile: "closeup", focusX: 0.5, focusY: 0.5, rotation: 0, safeZone: "center" },
+      camera: { profile: "closeup", focusX: 0.65, focusY: 0.5, rotation: 0, safeZone: "right" },
       character: { outfit: "green_shirt_white_tee", pose: "double_wave" },
       lighting: { profile: "DuskGlow" },
       transition: { duration: 900, easing: "power3.out" },
       timeline: [
         { frame: 1254, event: "TITLE_IN" },
-        { frame: 1258, event: "CONTENT_IN" },
+        { frame: 1256, event: "CONTENT_IN" },
       ],
       navbar: { mode: "compact" }, // double-wave raises both hands into navbar zone
       content: {

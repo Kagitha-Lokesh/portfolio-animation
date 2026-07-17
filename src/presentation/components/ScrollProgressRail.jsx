@@ -11,9 +11,11 @@ export function ScrollProgressRail() {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [activeSectionOrder, setActiveSectionOrder] = useState(1);
   const [railTheme, setRailTheme] = useState("light");
+  const [tensionPercent, setTensionPercent] = useState(0);
 
   useEffect(() => {
     const unsubFrame = EventBus.on("FRAME_CHANGED", (frame) => setCurrentFrame(frame));
+    
     const unsubSection = EventBus.on("SECTION_ACTIVE", (sectionId) => {
       const section = PORTFOLIO_CONFIG.sections[sectionId];
       if (section) {
@@ -22,9 +24,25 @@ export function ScrollProgressRail() {
         setRailTheme(theme);
       }
     });
+
+    const unsubTension = EventBus.on("SCROLL_TENSION", ({ percent }) => {
+      setTensionPercent(percent);
+    });
+
+    const unsubRelease = EventBus.on("SCROLL_TENSION_RELEASE", () => {
+      setTensionPercent(0);
+    });
+
+    const unsubTransitionStart = EventBus.on("TRANSITION_START", () => {
+      setTensionPercent(0);
+    });
+
     return () => {
       unsubFrame();
       unsubSection();
+      unsubTension();
+      unsubRelease();
+      unsubTransitionStart();
     };
   }, []);
 
@@ -48,6 +66,7 @@ export function ScrollProgressRail() {
             onClick={() => handleDotClick(section.id)}
             title={section.title}
             aria-label={`Go to ${section.title}`}
+            style={section.order === activeSectionOrder ? { "--tension-percent": `${tensionPercent * 100}%` } : undefined}
           />
         ))}
       </div>

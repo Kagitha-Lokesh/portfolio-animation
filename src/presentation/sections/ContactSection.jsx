@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import ContentCard from '../components/ContentCard';
 
-export function ContactSection({ content, hasTriggered = () => false }) {
+export function ContactSection({ theme, content, hasTriggered = () => false }) {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -29,13 +30,19 @@ export function ContactSection({ content, hasTriggered = () => false }) {
 
   return (
     <div className="contact-section-wrapper">
-      <h2 className={`section-title fade-element ${hasTriggered('TITLE_IN') ? 'visible' : ''}`}>
+      <h2 
+        className={`section-heading fade-element ${hasTriggered('TITLE_IN') ? 'visible' : ''}`}
+        data-theme={theme}
+      >
         {content.heading}
       </h2>
 
       <div className="contact-grid">
         {/* Contact Info Card */}
-        <div className={`contact-info-card glass-panel dark-panel fade-element ${hasTriggered('FORM_IN') ? 'visible' : ''}`}>
+        <ContentCard 
+          theme={theme}
+          className={`contact-info-card fade-element ${hasTriggered('FORM_IN') ? 'visible' : ''}`}
+        >
           <h3>{content.name}</h3>
           <p className="contact-roles">{content.roles.join(' • ')}</p>
           
@@ -54,12 +61,14 @@ export function ContactSection({ content, hasTriggered = () => false }) {
             <a href={content.github} target="_blank" rel="noopener noreferrer" className="social-badge">GitHub</a>
             <a href={content.linkedin} target="_blank" rel="noopener noreferrer" className="social-badge">LinkedIn</a>
           </div>
-        </div>
+        </ContentCard>
 
         {/* Message Form */}
-        <form 
+        <ContentCard 
+          theme={theme}
+          as="form"
           onSubmit={handleSubmit} 
-          className={`contact-form-panel glass-panel dark-panel fade-element ${hasTriggered('FORM_IN') ? 'visible' : ''}`}
+          className={`contact-form-panel fade-element ${hasTriggered('FORM_IN') ? 'visible' : ''}`}
         >
           <div className="form-group">
             <label htmlFor="name-input">Name</label>
@@ -107,7 +116,7 @@ export function ContactSection({ content, hasTriggered = () => false }) {
           >
             {isSubmitting ? 'Sending...' : isSuccess ? 'Message Sent!' : 'Send Message'}
           </button>
-        </form>
+        </ContentCard>
       </div>
     </div>
   );

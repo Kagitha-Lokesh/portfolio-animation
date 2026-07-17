@@ -8,21 +8,21 @@ export const DEVICE_PROFILES = {
     safeZone: 'Left 38%',
     focusX: 0.38,
     focusY: 0.50,
-    cacheLimit: 384 * 1024 * 1024 // 384MB cache (~48 decoded frames)
+    cacheLimit: 1200 * 1024 * 1024 // 1.2GB cache (~144 decoded frames — fits entire loop and exit/enter ranges)
   },
   TABLET: {
     name: 'TABLET',
     safeZone: 'Centered Bottom',
     focusX: 0.50,
     focusY: 0.50,
-    cacheLimit: 192 * 1024 * 1024 // 192MB cache (~24 decoded frames)
+    cacheLimit: 600 * 1024 * 1024 // 600MB cache (~72 decoded frames)
   },
   MOBILE: {
     name: 'MOBILE',
     safeZone: 'Top 30%',
     focusX: 0.50,
     focusY: 0.30,
-    cacheLimit: 96 * 1024 * 1024 // 96MB cache (~12 decoded frames)
+    cacheLimit: 300 * 1024 * 1024 // 300MB cache (~36 decoded frames)
   }
 };
 
@@ -48,11 +48,32 @@ const boundsInstance = {
  * Returns active profile based on viewport size.
  * @returns {object}
  */
+/**
+ * Module-level cache: avoids DOM read on every draw frame.
+ * Invalidated only on window resize.
+ */
+let _cachedProfile = null;
+let _cachedWidth   = -1;
+
+/**
+ * Returns active profile based on viewport size.
+ * Result is cached and only recomputed when the viewport width changes.
+ * @returns {object}
+ */
 export function getDeviceProfile() {
   const width = window.innerWidth;
-  if (width <= 480) return DEVICE_PROFILES.MOBILE;
-  if (width <= 768) return DEVICE_PROFILES.TABLET;
-  return DEVICE_PROFILES.DESKTOP;
+  if (width === _cachedWidth && _cachedProfile) return _cachedProfile;
+  _cachedWidth = width;
+  if (width <= 480) _cachedProfile = DEVICE_PROFILES.MOBILE;
+  else if (width <= 768) _cachedProfile = DEVICE_PROFILES.TABLET;
+  else _cachedProfile = DEVICE_PROFILES.DESKTOP;
+  return _cachedProfile;
+}
+
+/** Call this on window resize to bust the profile cache. */
+export function invalidateDeviceProfileCache() {
+  _cachedWidth   = -1;
+  _cachedProfile = null;
 }
 
 /**
@@ -64,7 +85,7 @@ export function fitCover(cWidth, cHeight, imgWidth, imgHeight, camera = {}, out 
   
   const focusX = camera.focusX !== undefined ? camera.focusX : profile.focusX;
   const focusY = camera.focusY !== undefined ? camera.focusY : profile.focusY;
-  const zoom = camera.zoom !== undefined ? camera.zoom : 1.0;
+  const zoom = 1.0; /* camera zoom factor is always flat 1.0 */
 
   const canvasRatio = cWidth / cHeight;
   const imgRatio = imgWidth / imgHeight;
