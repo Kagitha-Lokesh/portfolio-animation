@@ -114,6 +114,42 @@ export function ContactSection({ theme, content, hasTriggered = () => false }) {
           onSubmit={handleSubmit} 
           className={`contact-form-panel fade-element ${hasTriggered('FORM_IN') ? 'visible' : ''}`}
         >
+          {isSuccess && (
+            <div className="contact-status-banner success" style={{
+              backgroundColor: 'rgba(16, 185, 129, 0.15)',
+              border: '1px solid #10b981',
+              color: '#34d399',
+              padding: '12px 16px',
+              borderRadius: '6px',
+              marginBottom: '16px',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <span>✓</span>
+              <span>Your message has been sent successfully! Thank you.</span>
+            </div>
+          )}
+
+          {errorMessage && (
+            <div className="contact-status-banner error" style={{
+              backgroundColor: 'rgba(239, 68, 68, 0.15)',
+              border: '1px solid #ef4444',
+              color: '#f87171',
+              padding: '12px 16px',
+              borderRadius: '6px',
+              marginBottom: '16px',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <span>⚠️</span>
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
           <div className="form-group">
             <label htmlFor="name-input">Name</label>
             <input 
@@ -152,12 +188,6 @@ export function ContactSection({ theme, content, hasTriggered = () => false }) {
               required
             />
           </div>
-
-          {errorMessage && (
-            <div className="contact-error-message" style={{ color: '#f87171', fontSize: '13px', marginBottom: '12px', textAlign: 'left' }}>
-              ⚠️ {errorMessage}
-            </div>
-          )}
 
           <button 
             type="submit" 

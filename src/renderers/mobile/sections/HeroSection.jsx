@@ -68,7 +68,7 @@ export function HeroSection({ theme = 'dark' }) {
           </div>
           <div className="stat-divider" />
           <div className="stat-item">
-            <span className="stat-val">Final Yr</span>
+            <span className="stat-val">Graduate</span>
             <span className="stat-label">B.Tech</span>
           </div>
         </GlassCard>
