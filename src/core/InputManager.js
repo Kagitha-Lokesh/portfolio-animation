@@ -131,6 +131,16 @@ export class InputManager {
    * Evaluate arrow key intents.
    */
   handleKeyDown(e) {
+    // If the user is currently typing in a text input or textarea, bypass keyboard navigation
+    const activeEl = document.activeElement;
+    if (activeEl && (
+      activeEl.tagName === 'INPUT' || 
+      activeEl.tagName === 'TEXTAREA' || 
+      activeEl.isContentEditable
+    )) {
+      return;
+    }
+
     if (this.runtime.isTransitionLocked()) return;
 
     if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {

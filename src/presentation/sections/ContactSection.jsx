@@ -5,23 +5,42 @@ export function ContactSection({ theme, content, hasTriggered = () => false }) {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formState.name || !formState.email || !formState.message) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API request
-    setTimeout(() => {
+    setErrorMessage('');
+    setIsSuccess(false);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setIsSuccess(true);
+        setFormState({ name: '', email: '', message: '' });
+        setTimeout(() => {
+          setIsSuccess(false);
+        }, 5000);
+      } else {
+        setErrorMessage(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      setErrorMessage('Could not connect to the server. Please check your connection.');
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormState({ name: '', email: '', message: '' });
-      
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 5000);
-    }, 1500);
+    }
   };
 
   const handleInputChange = (field, value) => {
@@ -47,19 +66,44 @@ export function ContactSection({ theme, content, hasTriggered = () => false }) {
           <p className="contact-roles">{content.roles.join(' • ')}</p>
           
           <div className="contact-details">
-            <div className="detail-item">
-              <span className="detail-label">Email:</span>
-              <a href={`mailto:${content.email}`} className="detail-value">{content.email}</a>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Location:</span>
-              <span className="detail-value">{content.location.join(", ")}</span>
-            </div>
+            {content.email && (
+              <div className="detail-item">
+                <span className="detail-label">Email:</span>
+                <a href={`mailto:${content.email}`} className="detail-value">{content.email}</a>
+              </div>
+            )}
+            {content.phone && (
+              <div className="detail-item">
+                <span className="detail-label">Phone:</span>
+                <a href={`tel:${content.phone}`} className="detail-value">{content.phone}</a>
+              </div>
+            )}
+            {content.location && (
+              <div className="detail-item">
+                <span className="detail-label">Location:</span>
+                <span className="detail-value">
+                  {Array.isArray(content.location) ? content.location.join(", ") : content.location}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="contact-social-links">
-            <a href={content.github} target="_blank" rel="noopener noreferrer" className="social-badge">GitHub</a>
-            <a href={content.linkedin} target="_blank" rel="noopener noreferrer" className="social-badge">LinkedIn</a>
+            {content.github && (
+              <a href={content.github} target="_blank" rel="noopener noreferrer" className="social-badge">
+                GitHub
+              </a>
+            )}
+            {content.linkedin && (
+              <a href={content.linkedin} target="_blank" rel="noopener noreferrer" className="social-badge">
+                LinkedIn
+              </a>
+            )}
+            {content.instagram && (
+              <a href={content.instagram} target="_blank" rel="noopener noreferrer" className="social-badge">
+                Instagram
+              </a>
+            )}
           </div>
         </ContentCard>
 
@@ -108,6 +152,12 @@ export function ContactSection({ theme, content, hasTriggered = () => false }) {
               required
             />
           </div>
+
+          {errorMessage && (
+            <div className="contact-error-message" style={{ color: '#f87171', fontSize: '13px', marginBottom: '12px', textAlign: 'left' }}>
+              ⚠️ {errorMessage}
+            </div>
+          )}
 
           <button 
             type="submit" 
