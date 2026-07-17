@@ -15,7 +15,7 @@ export function AboutSection({ theme = 'dark' }) {
     if (contact.resumeUrl) {
       window.open(contact.resumeUrl, '_blank');
     } else {
-      alert("Resume download link placeholder. Correct the link in contact.json.");
+      alert("Resume will be uploaded later.");
     }
   };
 
