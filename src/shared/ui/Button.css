@@ -1,0 +1,61 @@
+.shared-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  outline: none;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.shared-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary Button Styling */
+.shared-btn.btn-primary {
+  background-color: var(--color-mint);
+  color: var(--text-inverse);
+  box-shadow: 0 4px 12px rgba(0, 184, 148, 0.2);
+}
+
+.shared-btn.btn-primary:active {
+  transform: scale(0.96);
+}
+
+.shared-btn.btn-primary .btn-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+/* Secondary Button Styling */
+.shared-btn.btn-secondary {
+  background-color: rgba(240, 247, 243, 0.05);
+  border-color: var(--card-border);
+  color: var(--page-text);
+  backdrop-filter: blur(10px);
+}
+
+.shared-btn.btn-secondary:active {
+  transform: scale(0.96);
+  background-color: rgba(240, 247, 243, 0.1);
+}

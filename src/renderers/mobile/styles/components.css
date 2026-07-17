@@ -1,0 +1,91 @@
+/**
+ * renderers/mobile/styles/components.css
+ * Mobile-specific subcomponent styles: cards, list headers, items.
+ */
+
+/* Pill styling */
+.mobile-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 12px;
+  background: rgba(0, 184, 148, 0.1);
+  border: 1px solid rgba(0, 184, 148, 0.25);
+  border-radius: var(--radius-full);
+  color: var(--color-mint);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mobile-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-mint);
+  box-shadow: 0 0 6px var(--color-mint);
+}
+
+/* Category Grid & Cards */
+.mobile-category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+@media (min-width: 480px) {
+  .mobile-category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mobile-category-card {
+  padding: var(--space-4) !important;
+}
+
+.mobile-category-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-base) !important;
+  color: var(--page-text);
+}
+
+.mobile-category-dot {
+  color: var(--color-mint);
+  font-size: var(--text-xs);
+}
+
+/* Simple key-value display specs */
+.mobile-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.mobile-detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: var(--space-2);
+}
+
+.mobile-detail-label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--page-text-2);
+}
+
+.mobile-detail-value {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--page-text);
+}

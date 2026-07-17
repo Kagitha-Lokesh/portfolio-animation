@@ -1,0 +1,73 @@
+.mobile-floating-dock-wrapper {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 998;
+  width: 90%;
+  max-width: 380px;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-floating-dock {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: var(--mobile-dock-height);
+  padding: 0 var(--space-3);
+  box-shadow: var(--shadow-lg), 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-xl);
+}
+
+.dock-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--page-text-2);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-fast);
+  width: 54px;
+}
+
+.dock-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.dock-btn-label {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.dock-btn.active {
+  color: var(--color-mint);
+}
+
+.dock-btn.active .dock-btn-icon {
+  background-color: rgba(0, 184, 148, 0.1);
+  color: var(--color-mint);
+  transform: translateY(-4px);
+  filter: drop-shadow(0 0 4px var(--glow-mint));
+}
+
+.dock-btn.active .dock-btn-label {
+  opacity: 1;
+  color: var(--color-mint);
+}

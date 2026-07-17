@@ -1,0 +1,163 @@
+.mobile-section-hero {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-section-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 480px;
+  z-index: 2;
+  margin-top: calc(var(--mobile-nav-height) + var(--space-4));
+}
+
+.status-badge-container {
+  display: flex;
+  justify-content: center;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 12px;
+  background-color: rgba(0, 184, 148, 0.08);
+  border: 1px solid rgba(0, 184, 148, 0.2);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-mint);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-mint);
+  border-radius: 50%;
+  animation: pulseDot 1.6s infinite alternate;
+  box-shadow: 0 0 6px var(--color-mint);
+}
+
+.hero-greeting-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-greet-subtitle {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--page-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hero-main-title {
+  margin-top: var(--space-1);
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--page-text-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-role-fade-wrapper {
+  height: 28px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-brand-statement {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--page-text-2);
+  line-height: 1.6;
+}
+
+.hero-quick-stats {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-around;
+  padding: var(--space-3) !important;
+  margin-top: var(--space-2);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-val {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--page-text);
+}
+
+.stat-label {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--page-text-2);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 28px;
+  background-color: var(--card-border);
+  align-self: center;
+}
+
+.hero-actions-container {
+  display: flex;
+  gap: var(--space-3);
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.hero-btn {
+  flex: 1;
+}
+
+.hero-scroll-indicator {
+  margin-top: var(--space-8);
+  cursor: pointer;
+  animation: bounceArrow 1.8s infinite;
+}
+
+.indicator-arrow {
+  font-size: var(--text-lg);
+  color: var(--page-text-2);
+}
+
+@keyframes pulseDot {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceArrow {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}

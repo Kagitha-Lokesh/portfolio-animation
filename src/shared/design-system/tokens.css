@@ -1,0 +1,157 @@
+/**
+ * shared/design-system/tokens.css
+ *
+ * Single source of truth for ALL design tokens.
+ * Both DesktopRenderer and MobileRenderer import this file.
+ * Changing a token here cascades to both experiences.
+ */
+
+:root {
+  /* ── Brand Colors ────────────────────────────────────────── */
+  --color-mint:          #00b894;
+  --color-mint-dark:     #00a381;
+  --color-mint-light:    #00d4a8;
+  --color-gold:          #fdcb6e;
+  --color-gold-dark:     #f0b429;
+  --color-teal:          #0984e3;
+  --color-crimson:       #d63031;
+  --color-purple:        #6c5ce7;
+
+  /* ── Glow Colors ─────────────────────────────────────────── */
+  --glow-mint:           rgba(0, 184, 148, 0.35);
+  --glow-mint-soft:      rgba(0, 184, 148, 0.15);
+  --glow-gold:           rgba(253, 203, 110, 0.35);
+  --glow-teal:           rgba(9, 132, 227, 0.35);
+
+  /* ── Background Scale ────────────────────────────────────── */
+  --bg-base:             #050806;
+  --bg-surface-1:        rgba(13, 20, 16, 0.92);
+  --bg-surface-2:        rgba(20, 30, 24, 0.88);
+  --bg-surface-3:        rgba(28, 40, 33, 0.80);
+
+  /* ── Glass Tokens ────────────────────────────────────────── */
+  --glass-bg-dark:       rgba(13, 20, 16, 0.72);
+  --glass-bg-light:      rgba(255, 255, 255, 0.45);
+  --glass-border-dark:   rgba(255, 255, 255, 0.07);
+  --glass-border-light:  rgba(255, 255, 255, 0.35);
+  --glass-blur:          20px;
+  --glass-blur-heavy:    32px;
+
+  /* ── Text Colors ─────────────────────────────────────────── */
+  --text-primary:        #f0f7f3;
+  --text-secondary:      rgba(240, 247, 243, 0.62);
+  --text-tertiary:       rgba(240, 247, 243, 0.35);
+  --text-inverse:        #111b15;
+  --text-inverse-secondary: rgba(17, 27, 21, 0.68);
+
+  /* ── Accent Aliases (backward compat with desktop) ───────── */
+  --accent-mint:         var(--color-mint);
+  --accent-gold:         var(--color-gold);
+  --accent-teal:         var(--color-teal);
+  --accent-crimson:      var(--color-crimson);
+  --bg-glass-light:      var(--glass-bg-light);
+  --bg-glass-dark:       var(--glass-bg-dark);
+  --border-glass-light:  var(--glass-border-light);
+  --border-glass-dark:   var(--glass-border-dark);
+  --text-dark-primary:   var(--text-primary);
+  --text-dark-secondary: var(--text-secondary);
+  --text-light-primary:  var(--text-inverse);
+  --text-light-secondary: var(--text-inverse-secondary);
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-display:        'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:           'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:           'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ── Type Scale ──────────────────────────────────────────── */
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.25rem;    /* 20px */
+  --text-2xl:  1.5rem;     /* 24px */
+  --text-3xl:  1.875rem;   /* 30px */
+  --text-4xl:  2.25rem;    /* 36px */
+  --text-5xl:  3rem;       /* 48px */
+  --text-6xl:  3.75rem;    /* 60px */
+
+  /* ── Spacing Scale (8px grid) ────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,0.6);
+  --shadow-glow: 0 0 24px var(--glow-mint);
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-inout:  cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   450ms;
+  --duration-slower: 700ms;
+
+  --transition-smooth: all var(--duration-slow) var(--ease-out);
+  --transition-fast:   all var(--duration-base) var(--ease-out);
+
+  /* ── Desktop-only tokens (untouched by mobile) ───────────── */
+  --character-safe-width: 42%;
+  --navbar-height:        64px;
+  --content-top-offset:   calc(var(--navbar-height) + 32px);
+
+  /* ── Mobile-specific tokens ──────────────────────────────── */
+  --mobile-nav-height:      60px;
+  --mobile-dock-height:     68px;
+  --mobile-section-pad-x:   24px;
+  --mobile-section-pad-y:   48px;
+  --mobile-card-radius:     var(--radius-lg);
+  --mobile-hero-min-height: 100svh;
+}
+
+/* Dark theme (default) */
+[data-theme="dark"], :root {
+  --surface-bg:   var(--bg-surface-1);
+  --card-bg:      var(--glass-bg-dark);
+  --card-border:  var(--glass-border-dark);
+  --page-text:    var(--text-primary);
+  --page-text-2:  var(--text-secondary);
+  --page-bg:      var(--bg-base);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --surface-bg:   rgba(240, 247, 243, 0.92);
+  --card-bg:      var(--glass-bg-light);
+  --card-border:  var(--glass-border-light);
+  --page-text:    var(--text-inverse);
+  --page-text-2:  var(--text-inverse-secondary);
+  --page-bg:      #f0f7f3;
+}
+
+/* Reduced motion */
+[data-reduced-motion="true"] * {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+}

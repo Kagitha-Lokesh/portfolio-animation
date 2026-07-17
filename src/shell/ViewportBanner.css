@@ -1,0 +1,67 @@
+.viewport-alert-banner {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 90%;
+  max-width: 450px;
+  background: rgba(13, 20, 16, 0.9);
+  border: 1px solid var(--color-mint);
+  box-shadow: 0 8px 32px rgba(0, 184, 148, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  animation: slideDownBanner 0.4s var(--ease-spring);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.banner-icon {
+  font-size: var(--text-lg);
+  color: var(--color-mint);
+}
+
+.banner-text {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-primary);
+  flex-grow: 1;
+  line-height: 1.4;
+}
+
+.banner-reload-btn {
+  background: var(--color-mint);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-inverse);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.banner-reload-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px var(--glow-mint);
+}
+
+@keyframes slideDownBanner {
+  from {
+    top: -80px;
+    opacity: 0;
+  }
+  to {
+    top: 16px;
+    opacity: 1;
+  }
+}

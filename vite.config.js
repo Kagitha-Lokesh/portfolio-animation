@@ -50,5 +50,22 @@ export default defineConfig({
         });
       }
     }
-  ]
+  ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('src/renderers/desktop/DesktopRenderer')) {
+            return 'renderer-desktop';
+          }
+          if (id.includes('src/renderers/mobile/MobileRenderer')) {
+            return 'renderer-mobile';
+          }
+          if (id.includes('node_modules/framer-motion')) {
+            return 'framer-motion';
+          }
+        }
+      }
+    }
+  }
 })

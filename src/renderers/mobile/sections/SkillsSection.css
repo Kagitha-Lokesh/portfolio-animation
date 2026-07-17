@@ -1,0 +1,17 @@
+.mobile-skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  .mobile-skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mobile-skill-cluster-item {
+  width: 100%;
+}

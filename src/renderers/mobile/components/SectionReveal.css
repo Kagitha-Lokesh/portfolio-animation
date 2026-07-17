@@ -1,0 +1,11 @@
+.section-reveal-container {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--ease-out), transform var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.section-reveal-container.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}

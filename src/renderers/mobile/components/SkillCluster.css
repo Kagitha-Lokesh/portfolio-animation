@@ -1,0 +1,33 @@
+.skill-cluster-card {
+  height: 100%;
+}
+
+.skill-cluster-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-base) !important;
+}
+
+.cluster-bullet {
+  color: var(--color-mint);
+  font-size: var(--text-xs);
+  box-shadow: 0 0 10px var(--glow-mint);
+}
+
+.cluster-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cluster-chip-wrapper {
+  display: inline-flex;
+}
+
+.cluster-skill-chip {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  font-weight: 500 !important;
+  border-radius: var(--radius-md) !important;
+}

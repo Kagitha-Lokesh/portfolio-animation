@@ -1,0 +1,30 @@
+.shared-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--card-border);
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--page-text-2);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.shared-icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--page-text);
+  border-color: rgba(0, 184, 148, 0.3);
+}
+
+.shared-icon-btn:active {
+  transform: scale(0.95);
+}
+
+.shared-icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

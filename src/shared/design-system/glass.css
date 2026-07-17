@@ -1,0 +1,25 @@
+/**
+ * shared/design-system/glass.css
+ * Glassmorphism utility classes usable by both renderers.
+ */
+
+.glass {
+  background:    var(--card-bg, var(--glass-bg-dark));
+  border:        1px solid var(--card-border, var(--glass-border-dark));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--mobile-card-radius, var(--radius-lg));
+}
+
+.glass--heavy {
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+}
+
+.glass--mint-border {
+  border-color: rgba(0, 184, 148, 0.2);
+}
+
+.glass--glow {
+  box-shadow: var(--shadow-glow);
+}

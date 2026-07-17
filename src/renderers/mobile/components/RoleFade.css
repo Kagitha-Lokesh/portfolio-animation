@@ -1,0 +1,33 @@
+.role-fade-container {
+  display: inline-flex;
+  position: relative;
+  min-height: 1.5em;
+  overflow: hidden;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.role-fade-text {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-mint);
+  text-shadow: 0 0 12px var(--glow-mint-soft);
+  text-transform: capitalize;
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.role-fade-text.enter {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.role-fade-text.exit {
+  opacity: 0;
+  transform: translateY(-6px);
+}

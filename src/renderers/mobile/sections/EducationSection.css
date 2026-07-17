@@ -1,0 +1,96 @@
+.mobile-education-timeline {
+  position: relative;
+  width: 100%;
+  margin-top: var(--space-4);
+  padding-left: var(--space-6);
+  box-sizing: border-box;
+}
+
+.edu-connector-line {
+  position: absolute;
+  top: var(--space-4);
+  bottom: var(--space-4);
+  left: 10px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--color-teal) 0%, rgba(9, 132, 227, 0.15) 100%);
+  border-radius: var(--radius-full);
+}
+
+.edu-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.edu-item-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.edu-marker-dot {
+  position: absolute;
+  left: -20px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--page-bg);
+  border: 2px solid var(--color-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.edu-inner-glow {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-teal);
+  box-shadow: 0 0 6px var(--color-teal);
+}
+
+.edu-item-card {
+  padding: var(--space-4) !important;
+}
+
+.edu-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edu-badge-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.edu-degree-title {
+  font-size: var(--text-base) !important;
+  line-height: 1.3 !important;
+}
+
+.edu-branch-text {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--page-text-2);
+  line-height: 1.4;
+}
+
+.edu-institution-info {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--card-border);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+}
+
+.edu-institution-name {
+  font-weight: 600;
+  color: var(--page-text);
+}
+
+.edu-location-bullet {
+  color: var(--page-text-2);
+}

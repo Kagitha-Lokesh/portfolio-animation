@@ -1,0 +1,38 @@
+/**
+ * renderers/mobile/styles/layout.css
+ * Layout rules for mobile sections and shell containers.
+ */
+
+.mobile-app-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--page-bg);
+  color: var(--page-text);
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  /* Add smooth native-like momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--mobile-dock-height) + var(--mobile-safe-bottom) + var(--space-6));
+}
+
+.mobile-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: var(--mobile-content-top) var(--mobile-section-pad-x) var(--mobile-section-pad-y);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Specific adjustments for section alignment if needed */
+.mobile-section-hero {
+  min-height: var(--mobile-hero-min-height);
+  padding-top: 0;
+  padding-bottom: var(--space-8);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

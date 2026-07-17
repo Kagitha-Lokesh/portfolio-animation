@@ -1,0 +1,22 @@
+.mobile-gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
+  animation: pulseGlow 18s ease-in-out infinite;
+}
+
+.orb-mint {
+  background: radial-gradient(circle, rgba(0, 184, 148, 0.4) 0%, rgba(0, 184, 148, 0) 70%);
+}
+
+.orb-gold {
+  background: radial-gradient(circle, rgba(253, 203, 110, 0.3) 0%, rgba(253, 203, 110, 0) 70%);
+}
+
+.orb-teal {
+  background: radial-gradient(circle, rgba(9, 132, 227, 0.3) 0%, rgba(9, 132, 227, 0) 70%);
+}

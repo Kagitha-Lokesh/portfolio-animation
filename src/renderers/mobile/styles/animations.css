@@ -1,0 +1,33 @@
+/**
+ * renderers/mobile/styles/animations.css
+ * Mobile-specific custom CSS keyframes.
+ */
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.2) translate(-45%, -55%);
+    opacity: 0.6;
+  }
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+  }
+}
+
+@keyframes progressDraw {
+  from {
+    height: 0%;
+  }
+  to {
+    height: 100%;
+  }
+}

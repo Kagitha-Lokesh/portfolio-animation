@@ -1,0 +1,11 @@
+/**
+ * renderers/mobile/styles/tokens.css
+ * Mobile-specific custom tokens overrides.
+ */
+
+:root {
+  /* Customize mobile-specific UI offsets and padding values */
+  --mobile-safe-top: env(safe-area-inset-top, 0px);
+  --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --mobile-content-top: calc(var(--mobile-nav-height) + var(--mobile-safe-top) + var(--space-4));
+}

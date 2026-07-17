@@ -1,0 +1,42 @@
+.shared-section-title {
+  margin-bottom: var(--space-8);
+  position: relative;
+}
+
+.shared-section-title.align-center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shared-section-title.align-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.section-title-heading {
+  margin-bottom: var(--space-2);
+  text-transform: capitalize;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--page-text-2);
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.section-title-line {
+  width: 48px;
+  height: 3px;
+  background-color: var(--color-mint);
+  border-radius: var(--radius-full);
+  margin-top: var(--space-3);
+  box-shadow: 0 0 8px var(--glow-mint);
+}

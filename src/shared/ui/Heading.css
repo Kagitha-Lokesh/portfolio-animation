@@ -1,0 +1,27 @@
+.shared-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--page-text);
+}
+
+.shared-heading.heading-l1 {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.shared-heading.heading-l2 {
+  font-size: var(--text-3xl);
+  letter-spacing: -0.025em;
+}
+
+.shared-heading.heading-l3 {
+  font-size: var(--text-xl);
+}
+
+.shared-heading.heading-l4 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
