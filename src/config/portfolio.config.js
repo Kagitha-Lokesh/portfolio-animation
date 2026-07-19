@@ -190,7 +190,9 @@ export const PORTFOLIO_CONFIG = {
           {
             title: "DevMentor AI",
             tag: "Flagship Project",
-            liveDemo: "https://javamentor.vercel.app/login?demo=true",
+            liveDemo: typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV
+              ? "http://localhost:3000/login?demo=true"
+              : "https://javamentor.vercel.app/login?demo=true",
             description:
               "A production-oriented AI-powered learning platform designed to help developers master Java Full Stack Development through structured learning paths, coding practice, interview preparation, AI assistance, and project-based learning.",
             features: [
@@ -202,7 +204,9 @@ export const PORTFOLIO_CONFIG = {
           {
             title: "Log Tracker",
             tag: null,
-            liveDemo: "https://logtrack1.vercel.app/login",
+            liveDemo: typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV
+              ? "http://localhost:5000/login?demo=true"
+              : "https://logtrack1.vercel.app/login",
             description:
               "A production-oriented Log Tracker designed to simplify workforce management through secure authentication, attendance tracking, leave management, and administrative operations. The application enables organizations to efficiently monitor employee attendance, manage employee records, generate reports, and streamline daily HR processes with a responsive and user-friendly interface.",
             features: [
