@@ -190,7 +190,7 @@ export const PORTFOLIO_CONFIG = {
           {
             title: "DevMentor AI",
             tag: "Flagship Project",
-            liveDemo: "https://javamentor.vercel.app/login",
+            liveDemo: "https://javamentor.vercel.app/login?demo=true",
             description:
               "A production-oriented AI-powered learning platform designed to help developers master Java Full Stack Development through structured learning paths, coding practice, interview preparation, AI assistance, and project-based learning.",
             features: [
